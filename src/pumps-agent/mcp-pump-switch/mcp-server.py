@@ -22,7 +22,7 @@ MCP_API_KEY = os.getenv("MCP_API_KEY", "dev-secret")
 # Shared state (prototype only; not durable across restarts / scale-out)
 # =============================================================================
 STATE_LOCK = threading.Lock()
-STATE = {"switch": False}  # False=OFF, True=ON
+STATE = {"switch": True}  # False=OFF, True=ON
 
 
 def get_state() -> bool:
