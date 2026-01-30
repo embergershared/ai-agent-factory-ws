@@ -90,26 +90,26 @@ class RequireApiKeyForMcpMiddleware:
 # =============================================================================
 # MCP server definition (must be defined before lifespan)
 # =============================================================================
-mcp = FastMCP("valve-switch-http")
+mcp = FastMCP("pump-switch-http")
 
 
 @mcp.tool()
-def valve_switch_get_status() -> dict:
-    """Get current valve switch status."""
+def pump_switch_get_status() -> dict:
+    """Get current pump switch status."""
     on = get_state()
     return {"status": "ON" if on else "OFF", "switch": on}
 
 
 @mcp.tool()
-def valve_switch_toggle() -> dict:
-    """Toggle valve switch state."""
+def pump_switch_toggle() -> dict:
+    """Toggle pump switch state."""
     on = toggle_state()
     return {"status": "ON" if on else "OFF", "switch": on}
 
 
 @mcp.tool()
-def valve_switch_set(status: Literal["ON", "OFF"]) -> dict:
-    """Set valve switch explicitly to ON or OFF."""
+def pump_switch_set(status: Literal["ON", "OFF"]) -> dict:
+    """Set pump switch explicitly to ON or OFF."""
     on = set_state(status == "ON")
     return {"status": "ON" if on else "OFF", "switch": on}
 
@@ -127,7 +127,7 @@ async def lifespan(app: FastAPI):
 # =============================================================================
 # FastAPI app (Web UI + optional REST)
 # =============================================================================
-app = FastAPI(title="Valve Switch (Web + MCP over HTTP)", lifespan=lifespan)
+app = FastAPI(title="Pump Switch (Web + MCP over HTTP)", lifespan=lifespan)
 app.add_middleware(RequireApiKeyForMcpMiddleware)
 
 static_dir = os.path.join(os.path.dirname(__file__), "static")
@@ -141,7 +141,7 @@ def index() -> str:
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Valve switch</title>
+  <title>Pump switch</title>
   <style>
     body { font-family: system-ui, Arial, sans-serif; background:#0b1220; color:#e6eefc; }
     .wrap { max-width: 900px; margin: 40px auto; text-align:center; }
@@ -154,7 +154,7 @@ def index() -> str:
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Valve</h1>
+      <h1>Toroshima Pump Switch status</h1>
       <img id="switchImg" src="/static/switch_off.svg" alt="switch" />
       <div class="status" id="statusText">Status: OFF</div>
       <div class="hint">Click the switch image to toggle (web UI).</div>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a sample MCP server that manages a simple valve switch with ON/OFF states. It exposes three tools via the MCP protocol: 
+This is a sample MCP server that manages a simple valve switch with ON/OFF states. It exposes three tools via the MCP protocol:
 
 1. `valve_switch_get_status`: Get the current status of the valve switch.
 2. `valve_switch_toggle`: Toggle the state of the valve switch.
@@ -15,7 +15,7 @@ The URL to see the valve is: [Valve Switch](https://mcp-valve-switch-ezb2abd3eta
 
 ```pwsh
 python -m venv venv
-venv\Scripts\Activate.ps1
+.\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
