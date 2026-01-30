@@ -1,0 +1,42 @@
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "tools": [
+      {
+        "name": "interruptor_get_status",
+        "description": "Get current interruptor status.",
+        "inputSchema": {
+          "properties": {},
+          "title": "interruptor_get_statusArguments",
+          "type": "object"
+        }
+      },
+      {
+        "name": "interruptor_toggle",
+        "description": "Toggle interruptor state.",
+        "inputSchema": {
+          "properties": {},
+          "title": "interruptor_toggleArguments",
+          "type": "object"
+        }
+      },
+      {
+        "name": "interruptor_set",
+        "description": "Set interruptor explicitly to ON or OFF.",
+        "inputSchema": {
+          "properties": {
+            "status": {
+              "enum": ["ON", "OFF"],
+              "title": "Status",
+              "type": "string"
+            }
+          },
+          "required": ["status"],
+          "title": "interruptor_setArguments",
+          "type": "object"
+        }
+      }
+    ]
+  }
+}
