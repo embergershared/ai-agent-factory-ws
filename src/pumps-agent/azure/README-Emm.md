@@ -101,6 +101,30 @@ az storage account update `
   --public-network-access Disabled
 ```
 
+### b. Azure Bastion Host for VM connectivity
+
+```pwsh
+# Deploy Azure Bastion Host to enable secure VM connectivity
+# Note: The VNet must have an AzureBastionSubnet with at least /26 CIDR block
+
+# Set the parameters for the deployment (uses environment variables set in step 2)
+# Note: AZURE_SUBSCRIPTION_ID and AZURE_RESOURCE_GROUP must be set as environment variables
+$BICEP_PATH = ".\pumps-agent-resources\bastion"
+
+# Deploy the Bastion Host
+az deployment group create `
+  --resource-group $env:AZURE_RESOURCE_GROUP `
+  --subscription $env:AZURE_SUBSCRIPTION_ID `
+  --template-file "$BICEP_PATH\main.bicep" `
+  --parameters "$BICEP_PATH\main.bicepparam"
+
+# Verify the Bastion Host deployment
+az network bastion show `
+  --name "$VNET_NAME-bastion" `
+  --resource-group $RESOURCE_GROUP `
+  --output table
+```
+
 ## References
 
 https://azure.github.io/AI-Landing-Zones/bicep/how-to-use/
