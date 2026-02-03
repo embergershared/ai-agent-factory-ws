@@ -36,6 +36,17 @@ This section of the repo deploys the Azure resources to demonstrate the AI Agent
 
    # 6. Deploy the AI Landing Zone
    azd provision
+
+    # 7. Patch the AI Services resource to enable public network access and add security tag
+    # Get the AI Services account name (type: microsoft.cognitiveservices/accounts, kind: AIServices)
+    $AI_SERVICES_NAME = (az cognitiveservices account list `
+      --resource-group $env:AZURE_RESOURCE_GROUP `
+      --query "[?kind=='AIServices'].name | [0]" -o tsv)
+
+    # Update the AI Services account: enable public network access and add SecurityControl tag
+    az resource update `
+      --ids "/subscriptions/$env:AZURE_SUBSCRIPTION_ID/resourceGroups/$env:AZURE_RESOURCE_GROUP/providers/Microsoft.CognitiveServices/accounts/$AI_SERVICES_NAME" `
+      --set properties.publicNetworkAccess=Enabled tags.SecurityControl=Ignore
    ```
 
 ## 3. Deploy the AI Agent Factory Workshop resources
