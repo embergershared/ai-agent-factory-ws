@@ -40,6 +40,8 @@ This section of the repo deploys the Azure resources to demonstrate the AI Agent
 
 ## 3. Deploy the AI Agent Factory Workshop resources
 
+### a. Storage account with private endpoint for pumps manuals
+
 ```pwsh
 # 1. Create a Storage Account and Blob container for the pumps manuals
 
@@ -47,6 +49,9 @@ This section of the repo deploys the Azure resources to demonstrate the AI Agent
 $SUBSCRIPTION_ID = $env:AZURE_SUBSCRIPTION_ID
 $RESOURCE_GROUP = $env:AZURE_RESOURCE_GROUP
 $BICEP_PATH = ".\pumps-agent-resources\manuals"
+$PUBLIC_IP = (Invoke-WebRequest -Uri 'https://api.ipify.org').Content
+$VNET_NAME = "vnet-kfdflmm4bt3m"
+$STORAGE_ACCOUNT_NAME = "stpumpsmanuals$(Get-Random -Maximum 9999)"
 
 # Deploy the storage account with private endpoint
 # networkSubscriptionId and networkResourceGroupName come from environment variables
@@ -55,7 +60,10 @@ az deployment group create `
   --template-file "$BICEP_PATH\main.bicep" `
   --parameters "$BICEP_PATH\main.bicepparam" `
   --parameters networkSubscriptionId=$SUBSCRIPTION_ID `
-              networkResourceGroupName=$RESOURCE_GROUP
+              networkResourceGroupName=$RESOURCE_GROUP `
+              allowedPublicIpAddress=$PUBLIC_IP `
+              vnetName=$VNET_NAME `
+              storageAccountName=$STORAGE_ACCOUNT_NAME
 
 # Get the storage account name from the deployment output
 $STORAGE_ACCOUNT = (az deployment group show `
@@ -71,13 +79,13 @@ $CONTAINER_NAME = (az deployment group show `
 # 2. Upload the pumps manuals to the storage account using azcopy
 
 # Ensure you're logged in with azcopy (uses Azure AD auth)
-azcopy login
+.\azcopy login
 
 # Upload all PDF files from the local manuals folder to the blob container
 $LOCAL_MANUALS_PATH = ".\pumps-agent-resources\manuals\pdfs\*"
 $BLOB_CONTAINER_URL = "https://$STORAGE_ACCOUNT.blob.core.windows.net/$CONTAINER_NAME"
 
-azcopy copy $LOCAL_MANUALS_PATH $BLOB_CONTAINER_URL --recursive
+.\azcopy copy $LOCAL_MANUALS_PATH $BLOB_CONTAINER_URL --recursive
 
 # Verify the upload
 az storage blob list `

@@ -6,7 +6,7 @@ using './main.bicep'
 
 param location = 'swedencentral'
 param baseName = 'pumpsmanuals'
-param environment = 'dev'
+param environment = 'demo'
 param tags = {
   project: 'pumps-agent'
   purpose: 'pdf-manuals-storage'
@@ -28,8 +28,8 @@ param privateEndpointSubnetName = 'pe-subnet'
 // Uncomment if DNS zones are in a different resource group
 // param dnsZoneResourceGroupName = '<dns-zone-rg-name>'
 
-// Public network access is disabled by default for security
-param publicNetworkAccess = 'Enabled' // Change to 'Disabled' to block all public access
+// Public network access is Enabled to allow access from runner Public IP for uploads
+param publicNetworkAccess = 'Enabled' // It is then changed to 'Disabled' to block all public access
 
 // Your public IP address to allow access from (only used when publicNetworkAccess is 'Enabled')
 // Get your IP with: (Invoke-WebRequest -Uri 'https://api.ipify.org').Content

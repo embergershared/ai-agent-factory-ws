@@ -10,7 +10,7 @@ param location string = resourceGroup().location
 param baseName string = 'pumpsmanuals'
 
 @description('Environment name (dev, test, prod)')
-@allowed(['dev', 'test', 'prod'])
+@allowed(['dev', 'test', 'prod', 'demo'])
 param environment string = 'dev'
 
 @description('Tags to apply to all resources')
@@ -45,10 +45,7 @@ param dnsZoneResourceGroupName string = networkResourceGroupName
 param storageAccountName string = ''
 
 @description('Name of the blob container for manuals')
-param containerName string = 'manuals'
-
-@description('Name of the folder (virtual directory) within the container for organizing files')
-param folderName string = 'pdf'
+param containerName string = 'pumps-manuals'
 
 // =============================================================================
 // Variables
@@ -126,7 +123,7 @@ resource manualsContainer 'Microsoft.Storage/storageAccounts/blobServices/contai
 
 @description('Private endpoint for blob storage')
 resource blobPrivateEndpoint 'Microsoft.Network/privateEndpoints@2024-05-01' = if (deployPrivateEndpoint) {
-  name: 'pe-${storageAccountName}-blob'
+  name: 'pe-st-${storageAccountName}'
   location: location
   tags: tags
   properties: {
@@ -180,11 +177,8 @@ output containerName string = manualsContainer.name
 @description('The full URL to the manuals container')
 output containerUrl string = '${storageAccount.properties.primaryEndpoints.blob}${containerName}'
 
-@description('The folder name for organizing files within the container')
-output folderName string = folderName
-
 @description('The full URL to the folder within the container')
-output folderUrl string = '${storageAccount.properties.primaryEndpoints.blob}${containerName}/${folderName}'
+output folderUrl string = '${storageAccount.properties.primaryEndpoints.blob}${containerName}/'
 
 @description('The private endpoint resource ID (if deployed)')
 output privateEndpointId string = deployPrivateEndpoint ? blobPrivateEndpoint.id : ''
