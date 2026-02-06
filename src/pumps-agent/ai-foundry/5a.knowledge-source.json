@@ -1,0 +1,61 @@
+{
+  "@odata.context": "https://search-aikfdflmm4bt3mbxs6.search.windows.net/$metadata#knowledgesources/$entity",
+  "@odata.etag": "\"0x8DE653657711C89\"",
+  "name": "ks-storageblob-pumps-manuals",
+  "kind": "azureBlob",
+  "description": null,
+  "encryptionKey": null,
+  "searchIndexParameters": null,
+  "azureBlobParameters": {
+    "connectionString": "<redacted>",
+    "containerName": "pumps-manuals",
+    "folderPath": null,
+    "isADLSGen2": null,
+    "ingestionParameters": {
+      "disableImageVerbalization": false,
+      "ingestionPermissionOptions": [],
+      "contentExtractionMode": "standard",
+      "identity": null,
+      "embeddingModel": {
+        "kind": "azureOpenAI",
+        "azureOpenAIParameters": {
+          "resourceUri": "https://aikfdflmm4bt3mbxs6.openai.azure.com",
+          "deploymentId": "text-embedding-3-large",
+          "apiKey": null,
+          "modelName": "text-embedding-3-large",
+          "authIdentity": null
+        }
+      },
+      "chatCompletionModel": {
+        "kind": "azureOpenAI",
+        "azureOpenAIParameters": {
+          "resourceUri": "https://aikfdflmm4bt3mbxs6.openai.azure.com/openai/deployments/gpt-5-mini/chat/completions?api-version=2025-01-01-preview",
+          "deploymentId": "gpt-5-mini",
+          "apiKey": null,
+          "modelName": "gpt-5-mini",
+          "authIdentity": null
+        }
+      },
+      "ingestionSchedule": {
+        "interval": "P1D",
+        "startTime": null
+      },
+      "assetStore": null,
+      "aiServices": {
+        "uri": "https://aikfdflmm4bt3mbxs6.cognitiveservices.azure.com/",
+        "apiKey": null
+      }
+    },
+    "createdResources": {
+      "datasource": "ks-storageblob-pumps-manuals-datasource",
+      "indexer": "ks-storageblob-pumps-manuals-indexer",
+      "skillset": "ks-storageblob-pumps-manuals-skillset",
+      "index": "ks-storageblob-pumps-manuals-index"
+    }
+  },
+  "mcpToolParameters": null,
+  "webParameters": null,
+  "remoteSharePointParameters": null,
+  "indexedSharePointParameters": null,
+  "indexedOneLakeParameters": null
+}

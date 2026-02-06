@@ -1,0 +1,30 @@
+{
+  "@odata.context": "https://search-aikfdflmm4bt3mbxs6.search.windows.net/$metadata#knowledgebases/$entity",
+  "@odata.etag": "\"0x8DE653696FAF6D1\"",
+  "name": "kb-pumps-manual",
+  "description": "",
+  "retrievalInstructions": "",
+  "answerInstructions": null,
+  "outputMode": "answerSynthesis",
+  "knowledgeSources": [
+    {
+      "name": "ks-storageblob-pumps-manuals"
+    }
+  ],
+  "models": [
+    {
+      "kind": "azureOpenAI",
+      "azureOpenAIParameters": {
+        "resourceUri": "https://aikfdflmm4bt3mbxs6.openai.azure.com",
+        "deploymentId": "gpt-5-mini",
+        "apiKey": null,
+        "modelName": "gpt-5-mini",
+        "authIdentity": null
+      }
+    }
+  ],
+  "encryptionKey": null,
+  "retrievalReasoningEffort": {
+    "kind": "medium"
+  }
+}
