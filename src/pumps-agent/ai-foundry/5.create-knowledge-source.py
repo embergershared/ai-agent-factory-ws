@@ -464,6 +464,7 @@ def main() -> None:
         sys.exit(1)
 
     # 3. Create the blob knowledge source in Azure Search for the pumps manuals
+    # Important note: If the Storage Account has Private Endpoint, configure Azure Search / Shared private access in networking
     knowledge_source_name = "ks-python-created"
     create_blob_knowledge_source(
         knowledge_source_name=knowledge_source_name,
