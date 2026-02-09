@@ -46,8 +46,9 @@ This section of the repo deploys the Azure resources to demonstrate the AI Agent
     # Update the AI Services account: enable public network access and add SecurityControl tag
     az resource update `
       --ids "/subscriptions/$env:AZURE_SUBSCRIPTION_ID/resourceGroups/$env:AZURE_RESOURCE_GROUP/providers/Microsoft.CognitiveServices/accounts/$AI_SERVICES_NAME" `
-      --set "properties.publicNetworkAccess=Enabled"
-      --set "tags.SecurityControl=Ignore"
+      --set "properties.publicNetworkAccess=Enabled" `
+      --set "tags.SecurityControl=Ignore" `
+      --set "properties.disableLocalAuth=false"
 
     # 8. Disable ACR restrict export policy and allow selected public access (Allows to push images from outside of the VNet)
     $ACR_NAME = (az acr list `
