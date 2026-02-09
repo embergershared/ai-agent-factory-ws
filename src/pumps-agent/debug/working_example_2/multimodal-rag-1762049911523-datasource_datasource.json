@@ -1,0 +1,20 @@
+{
+  "@odata.context": "https://ai-search-service-s4.search.windows.net/$metadata#datasources/$entity",
+  "@odata.etag": "\"0x8DE678DC4D5B0C3\"",
+  "name": "multimodal-rag-1762049911523-datasource",
+  "description": null,
+  "type": "azureblob",
+  "subtype": null,
+  "indexerPermissionOptions": [],
+  "credentials": {
+    "connectionString": "ResourceId=/subscriptions/b8e2cc57-9620-431e-9293-4318e720ba07/resourceGroups/rg-use-391575-s4-ai-foundry-search/providers/Microsoft.Storage/storageAccounts/stacctaifoundrysearch;"
+  },
+  "container": {
+    "name": "ai-docs",
+    "query": null
+  },
+  "dataChangeDetectionPolicy": null,
+  "dataDeletionDetectionPolicy": null,
+  "encryptionKey": null,
+  "identity": null
+}

@@ -1,0 +1,187 @@
+{
+  "@odata.etag": "\"0x8DE5EE84DD8C4DF\"",
+  "name": "multimodal-rag-1762049911523",
+  "fields": [
+    {
+      "name": "content_id",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "retrievable": true,
+      "stored": true,
+      "sortable": true,
+      "facetable": false,
+      "key": true,
+      "analyzer": "keyword",
+      "synonymMaps": []
+    },
+    {
+      "name": "text_document_id",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "retrievable": true,
+      "stored": true,
+      "sortable": false,
+      "facetable": false,
+      "key": false,
+      "synonymMaps": []
+    },
+    {
+      "name": "document_title",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "retrievable": true,
+      "stored": true,
+      "sortable": false,
+      "facetable": false,
+      "key": false,
+      "synonymMaps": []
+    },
+    {
+      "name": "image_document_id",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "retrievable": true,
+      "stored": true,
+      "sortable": false,
+      "facetable": false,
+      "key": false,
+      "synonymMaps": []
+    },
+    {
+      "name": "content_text",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "retrievable": true,
+      "stored": true,
+      "sortable": false,
+      "facetable": false,
+      "key": false,
+      "synonymMaps": []
+    },
+    {
+      "name": "content_embedding",
+      "type": "Collection(Edm.Single)",
+      "searchable": true,
+      "filterable": false,
+      "retrievable": true,
+      "stored": true,
+      "sortable": false,
+      "facetable": false,
+      "key": false,
+      "dimensions": 1024,
+      "vectorSearchProfile": "multimodal-rag-1762049911523-aiServicesVision-text-profile",
+      "synonymMaps": []
+    },
+    {
+      "name": "content_path",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "retrievable": true,
+      "stored": true,
+      "sortable": false,
+      "facetable": false,
+      "key": false,
+      "synonymMaps": []
+    },
+    {
+      "name": "locationMetadata",
+      "type": "Edm.ComplexType",
+      "fields": [
+        {
+          "name": "pageNumber",
+          "type": "Edm.Int32",
+          "searchable": false,
+          "filterable": true,
+          "retrievable": true,
+          "stored": true,
+          "sortable": false,
+          "facetable": false,
+          "key": false,
+          "synonymMaps": []
+        },
+        {
+          "name": "boundingPolygons",
+          "type": "Edm.String",
+          "searchable": false,
+          "filterable": false,
+          "retrievable": true,
+          "stored": true,
+          "sortable": false,
+          "facetable": false,
+          "key": false,
+          "synonymMaps": []
+        }
+      ]
+    }
+  ],
+  "scoringProfiles": [],
+  "suggesters": [],
+  "analyzers": [],
+  "normalizers": [],
+  "tokenizers": [],
+  "tokenFilters": [],
+  "charFilters": [],
+  "similarity": {
+    "@odata.type": "#Microsoft.Azure.Search.BM25Similarity"
+  },
+  "semantic": {
+    "defaultConfiguration": "multimodal-rag-1762049911523-semantic-configuration",
+    "configurations": [
+      {
+        "name": "multimodal-rag-1762049911523-semantic-configuration",
+        "flightingOptIn": false,
+        "rankingOrder": "BoostedRerankerScore",
+        "prioritizedFields": {
+          "titleField": {
+            "fieldName": "document_title"
+          },
+          "prioritizedContentFields": [
+            {
+              "fieldName": "content_text"
+            }
+          ],
+          "prioritizedKeywordsFields": []
+        }
+      }
+    ]
+  },
+  "vectorSearch": {
+    "algorithms": [
+      {
+        "name": "multimodal-rag-1762049911523-algorithm",
+        "kind": "hnsw",
+        "hnswParameters": {
+          "metric": "cosine",
+          "m": 4,
+          "efConstruction": 400,
+          "efSearch": 500
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "name": "multimodal-rag-1762049911523-aiServicesVision-text-profile",
+        "algorithm": "multimodal-rag-1762049911523-algorithm",
+        "vectorizer": "multimodal-rag-1762049911523-aiServicesVision-text-vectorizer"
+      }
+    ],
+    "vectorizers": [
+      {
+        "name": "multimodal-rag-1762049911523-aiServicesVision-text-vectorizer",
+        "kind": "aiServicesVision",
+        "aiServicesVisionParameters": {
+          "modelVersion": "2023-04-15",
+          "apiKey": "<redacted>",
+          "resourceUri": "https://ai-service-account-s4.cognitiveservices.azure.com"
+        }
+      }
+    ],
+    "compressions": []
+  }
+}

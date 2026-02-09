@@ -1,0 +1,30 @@
+{
+  "@odata.context": "https://ai-search-service-s4.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DE19B99F76C008\"",
+  "name": "multimodal-rag-1762049911523-indexer",
+  "description": null,
+  "dataSourceName": "multimodal-rag-1762049911523-datasource",
+  "skillsetName": "multimodal-rag-1762049911523-skillset",
+  "targetIndexName": "multimodal-rag-1762049911523",
+  "disabled": null,
+  "schedule": null,
+  "parameters": {
+    "batchSize": 1,
+    "maxFailedItems": -1,
+    "maxFailedItemsPerBatch": 0,
+    "configuration": {
+      "allowSkillsetToReadFileData": true,
+      "executionEnvironment": "private"
+    }
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "metadata_storage_name",
+      "targetFieldName": "document_title",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}

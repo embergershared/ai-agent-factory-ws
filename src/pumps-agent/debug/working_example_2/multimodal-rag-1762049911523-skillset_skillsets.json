@@ -1,0 +1,185 @@
+{
+  "@odata.etag": "\"0x8DE5EE84DC3A6E4\"",
+  "name": "multimodal-rag-1762049911523-skillset",
+  "skills": [
+    {
+      "@odata.type": "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill",
+      "name": "#1",
+      "context": "/document",
+      "outputMode": "oneToMany",
+      "outputFormat": "text",
+      "extractionOptions": [
+        "images",
+        "locationMetadata"
+      ],
+      "inputs": [
+        {
+          "name": "file_data",
+          "source": "/document/file_data",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text_sections",
+          "targetName": "text_sections"
+        },
+        {
+          "name": "normalized_images",
+          "targetName": "normalized_images"
+        }
+      ],
+      "chunkingProperties": {
+        "unit": "characters",
+        "maximumLength": 2000,
+        "overlapLength": 200
+      }
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Vision.VectorizeSkill",
+      "name": "#2",
+      "context": "/document/text_sections/*",
+      "modelVersion": "2023-04-15",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/text_sections/*/content",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vector",
+          "targetName": "text_vector"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Vision.VectorizeSkill",
+      "name": "#3",
+      "context": "/document/normalized_images/*",
+      "modelVersion": "2023-04-15",
+      "inputs": [
+        {
+          "name": "image",
+          "source": "/document/normalized_images/*",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "vector",
+          "targetName": "image_vector"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Util.ShaperSkill",
+      "name": "#4",
+      "context": "/document/normalized_images/*",
+      "inputs": [
+        {
+          "name": "normalized_images",
+          "source": "/document/normalized_images/*",
+          "inputs": []
+        },
+        {
+          "name": "imagePath",
+          "source": "='extracted-images/'+$(/document/normalized_images/*/imagePath)",
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "targetName": "new_normalized_images"
+        }
+      ]
+    }
+  ],
+  "cognitiveServices": {
+    "@odata.type": "#Microsoft.Azure.Search.AIServicesByIdentity",
+    "subdomainUrl": "https://ai-service-account-s4.cognitiveservices.azure.com/"
+  },
+  "knowledgeStore": {
+    "storageConnectionString": "<redacted>",
+    "projections": [
+      {
+        "tables": [],
+        "objects": [],
+        "files": [
+          {
+            "storageContainer": "extracted-images",
+            "generatedKeyName": "extracted-imagesKey",
+            "source": "/document/normalized_images/*",
+            "inputs": []
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "synthesizeGeneratedKeyName": true
+    }
+  },
+  "indexProjections": {
+    "selectors": [
+      {
+        "targetIndexName": "multimodal-rag-1762049911523",
+        "parentKeyFieldName": "text_document_id",
+        "sourceContext": "/document/text_sections/*",
+        "mappings": [
+          {
+            "name": "content_text",
+            "source": "/document/text_sections/*/content",
+            "inputs": []
+          },
+          {
+            "name": "content_embedding",
+            "source": "/document/text_sections/*/text_vector",
+            "inputs": []
+          },
+          {
+            "name": "document_title",
+            "source": "/document/document_title",
+            "inputs": []
+          },
+          {
+            "name": "locationMetadata",
+            "source": "/document/text_sections/*/locationMetadata",
+            "inputs": []
+          }
+        ]
+      },
+      {
+        "targetIndexName": "multimodal-rag-1762049911523",
+        "parentKeyFieldName": "image_document_id",
+        "sourceContext": "/document/normalized_images/*",
+        "mappings": [
+          {
+            "name": "content_embedding",
+            "source": "/document/normalized_images/*/image_vector",
+            "inputs": []
+          },
+          {
+            "name": "content_path",
+            "source": "/document/normalized_images/*/new_normalized_images/imagePath",
+            "inputs": []
+          },
+          {
+            "name": "document_title",
+            "source": "/document/document_title",
+            "inputs": []
+          },
+          {
+            "name": "locationMetadata",
+            "source": "/document/normalized_images/*/locationMetadata",
+            "inputs": []
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "projectionMode": "skipIndexingParentDocuments"
+    }
+  }
+}
