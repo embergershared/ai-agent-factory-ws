@@ -11,7 +11,7 @@
           <mxGeometry height="40" width="50" x="850" y="460" as="geometry" />
         </mxCell>
         <mxCell id="pJMZFpgqtlGV3k6SRRL2-3" parent="1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/ai_machine_learning/AI_Studio.svg;" value="" vertex="1">
-          <mxGeometry height="68" width="64" x="360" y="271" as="geometry" />
+          <mxGeometry height="68" width="64" x="340" y="292" as="geometry" />
         </mxCell>
         <mxCell id="pJMZFpgqtlGV3k6SRRL2-4" parent="1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/ai_machine_learning/Cognitive_Services.svg;" value="Cognitive services" vertex="1">
           <mxGeometry height="48" width="68" x="733" y="222" as="geometry" />
@@ -26,19 +26,21 @@
           <mxGeometry height="52" width="65" x="737" y="300" as="geometry" />
         </mxCell>
         <mxCell id="pJMZFpgqtlGV3k6SRRL2-8" parent="1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/app_services/App_Services.svg;" value="Pump MCP server" vertex="1">
-          <mxGeometry height="68" width="68" x="506" y="369" as="geometry" />
+          <mxGeometry height="51" width="51" x="514.5" y="374" as="geometry" />
         </mxCell>
         <mxCell id="pJMZFpgqtlGV3k6SRRL2-9" parent="1" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.adobe_pdf;fillColor=#F40C0C;gradientColor=#610603" value="Manuals container" vertex="1">
           <mxGeometry height="47" width="47" x="802" y="390" as="geometry" />
         </mxCell>
         <mxCell id="pJMZFpgqtlGV3k6SRRL2-10" edge="1" parent="1" source="pJMZFpgqtlGV3k6SRRL2-3" style="endArrow=classic;html=1;rounded=0;" target="pJMZFpgqtlGV3k6SRRL2-6" value="Foundry IQ">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
+          <mxGeometry height="50" relative="1" width="50" x="-0.2682" y="3" as="geometry">
+            <mxPoint as="offset" />
             <mxPoint x="520" y="350" as="sourcePoint" />
             <mxPoint x="570" y="300" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="pJMZFpgqtlGV3k6SRRL2-11" edge="1" parent="1" source="pJMZFpgqtlGV3k6SRRL2-3" style="endArrow=classic;html=1;rounded=0;" target="pJMZFpgqtlGV3k6SRRL2-8" value="Tools">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
+          <mxGeometry height="50" relative="1" width="50" x="-0.5094" y="2" as="geometry">
+            <mxPoint as="offset" />
             <mxPoint x="450" y="589" as="sourcePoint" />
             <mxPoint x="562" y="530" as="targetPoint" />
           </mxGeometry>
@@ -49,7 +51,7 @@
             <mxPoint x="100" y="460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="pJMZFpgqtlGV3k6SRRL2-13" edge="1" parent="1" source="pJMZFpgqtlGV3k6SRRL2-6" style="endArrow=classic;html=1;rounded=0;" target="pJMZFpgqtlGV3k6SRRL2-4" value="">
+        <mxCell id="pJMZFpgqtlGV3k6SRRL2-13" edge="1" parent="1" source="pJMZFpgqtlGV3k6SRRL2-6" style="endArrow=classic;html=1;rounded=0;" target="pJMZFpgqtlGV3k6SRRL2-4" value="AI Vision">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
             <mxPoint x="520" y="350" as="sourcePoint" />
             <mxPoint x="570" y="300" as="targetPoint" />
