@@ -1,0 +1,30 @@
+{
+  "@odata.context": "https://ai-search-service-s4.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DE51EF088F8B83\"",
+  "name": "pumps-manuals-index-indexer",
+  "description": null,
+  "dataSourceName": "pumps-manuals-index-datasource",
+  "skillsetName": "pumps-manuals-index-skillset",
+  "targetIndexName": "pumps-manuals-index",
+  "disabled": null,
+  "schedule": null,
+  "parameters": {
+    "batchSize": 1,
+    "maxFailedItems": -1,
+    "maxFailedItemsPerBatch": 0,
+    "configuration": {
+      "allowSkillsetToReadFileData": true,
+      "executionEnvironment": "private"
+    }
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "metadata_storage_name",
+      "targetFieldName": "document_title",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}

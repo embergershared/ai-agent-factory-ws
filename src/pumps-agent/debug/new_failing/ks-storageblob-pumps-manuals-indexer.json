@@ -1,0 +1,34 @@
+{
+  "@odata.context": "https://search-aikfdflmm4bt3mbxs6.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DE677D373AC4A3\"",
+  "name": "ks-storageblob-pumps-manuals-indexer",
+  "description": "Indexer for knowledge source 'ks-storageblob-pumps-manuals'",
+  "dataSourceName": "azureblob-datasource-with-portal",
+  "skillsetName": "ks-storageblob-pumps-manuals-skillset",
+  "targetIndexName": "ks-storageblob-pumps-manuals-index",
+  "disabled": false,
+  "schedule": {
+    "interval": "P1D",
+    "startTime": "2026-02-06T04:14:50.297Z"
+  },
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": -1,
+    "maxFailedItemsPerBatch": -1,
+    "configuration": {
+      "dataToExtract": "contentAndMetadata",
+      "parsingMode": "default",
+      "allowSkillsetToReadFileData": true
+    }
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "metadata_storage_path",
+      "targetFieldName": "blob_url",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}
