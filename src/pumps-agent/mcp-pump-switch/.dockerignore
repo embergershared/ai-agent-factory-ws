@@ -1,0 +1,12 @@
+# Ignore files not needed in the Docker image
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+deploy-to-azure.ps1
+stop-uvicorn.ps1
+build-and-push.ps1
+README.md
+*.md
