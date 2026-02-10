@@ -8,6 +8,8 @@ resource "azurerm_search_service" "this" {
   location            = var.location
   sku                 = var.sku
 
+  semantic_search_sku = "free"
+
   # Use managed identity for data-plane auth
   identity {
     type = "SystemAssigned"
