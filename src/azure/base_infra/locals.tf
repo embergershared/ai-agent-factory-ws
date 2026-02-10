@@ -89,14 +89,22 @@ locals {
   }
 
   # AI ML Workspace: max 33 chars, alphanumeric + dashes only
-  ml_hub_name     = substr("mlhub-${local.name_prefix}", 0, 33)
-  ml_project_name = substr("mlproj-${local.name_prefix}", 0, 33)
+  ml_hub_name     = substr("aml-hub-${local.name_prefix}", 0, 33)
+  ml_project_name = substr("aml-proj-${local.name_prefix}", 0, 33)
 
   # AI Foundry: max 33 chars, alphanumeric + dashes only
-  ai_hub_name     = substr("aihub-${local.name_prefix}", 0, 33)
-  ai_project_name = substr("aiproj-${local.name_prefix}", 0, 33)
+  ai_hub_name     = substr("aif-hub-${local.name_prefix}", 0, 33)
+  ai_project_name = substr("aif-proj-${local.name_prefix}", 0, 33)
 
   # AI Services (Cognitive Account)
   ai_services_name        = "ais-${local.name_prefix}"
   ai_foundry_project_name = "aiproj-${local.name_prefix}"
+
+  # App Registration (Entra ID)
+  app_registration_name = "spn-391575-${local.name_prefix}"
+
+  # Bot Service
+  bot_service_name         = "az-bot-${local.name_prefix}"
+  bot_service_display_name = "Agent Bot Service"
+  bot_service_endpoint     = "https://${local.ai_services_name}.services.ai.azure.com/api/projects/${var.pump_foundry_project_name}/applications/${var.bot_service_agent_name}/protocols/activityprotocol?api-version=2025-11-15-preview"
 }

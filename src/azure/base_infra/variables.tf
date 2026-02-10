@@ -201,3 +201,20 @@ variable "pump_foundry_project_description" {
   type        = string
   default     = "Demo project in Foundry v2"
 }
+
+# ─── Bot Service ─────────────────────────────────────────────────────────────
+variable "bot_service_sku" {
+  description = "SKU for the Azure Bot Service (F0 or S1)."
+  type        = string
+  default     = "S1"
+}
+variable "bot_service_microsoft_app_type" {
+  description = "Microsoft App Type: SingleTenant, MultiTenant, or UserAssignedMSI."
+  type        = string
+  default     = "SingleTenant"
+}
+variable "bot_service_agent_name" {
+  description = "Name of the AI Foundry agent application (used in the bot endpoint URL)."
+  type        = string
+  default     = "pumps-agent"
+}

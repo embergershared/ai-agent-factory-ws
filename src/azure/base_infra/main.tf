@@ -197,16 +197,32 @@ module "ai_services" {
   tags                = local.common_tags
 }
 
-# # ═══════════════════════════════════════════════════════════════════════════════
-# # 14. AI Foundry Project
-# # ═══════════════════════════════════════════════════════════════════════════════
-# module "ai_foundry_project" {
-#   source = "../modules/ai_foundry_project"
+###############################################################################
+# 14b. App Registration (Entra ID) – for Bot Service
+###############################################################################
+module "app_registration" {
+  source = "../modules/app_registration"
 
-#   project_name           = var.pump_foundry_project_name
-#   project_description    = var.pump_foundry_project_description
-#   ai_services_account_id = module.ai_services.id
-#   location               = module.resource_group.location
-#   tags                   = local.common_tags
-# }
+  display_name = local.app_registration_name
+  owners       = [local.object_id]
+}
+
+###############################################################################
+# 15. Bot Service
+###############################################################################
+module "bot_service" {
+  source = "../modules/bot_service"
+
+  name                    = local.bot_service_name
+  resource_group_name     = module.resource_group.name
+  sku                     = var.bot_service_sku
+  display_name            = local.bot_service_display_name
+  endpoint                = local.bot_service_endpoint
+  microsoft_app_id        = module.app_registration.client_id
+  microsoft_app_type      = var.bot_service_microsoft_app_type
+  microsoft_app_tenant_id = local.tenant_id
+  tags                    = local.common_tags
+}
+
+
 #*/

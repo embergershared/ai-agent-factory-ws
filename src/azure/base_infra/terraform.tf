@@ -21,6 +21,10 @@ terraform {
     azapi = {
       source = "azure/azapi"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 3.1"
+    }
   }
 
   # Uncomment and configure for remote state
