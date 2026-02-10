@@ -1,0 +1,34 @@
+{
+  "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DE68500D416BF9\"",
+  "name": "knowledgesource-1770690128331-indexer",
+  "description": "Indexer for knowledge source 'knowledgesource-1770690128331'",
+  "dataSourceName": "knowledgesource-1770690128331-datasource",
+  "skillsetName": "knowledgesource-1770690128331-skillset",
+  "targetIndexName": "knowledgesource-1770690128331-index",
+  "disabled": false,
+  "schedule": {
+    "interval": "P1D",
+    "startTime": "2026-02-10T02:39:04.818Z"
+  },
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": -1,
+    "maxFailedItemsPerBatch": -1,
+    "configuration": {
+      "dataToExtract": "contentAndMetadata",
+      "parsingMode": "default",
+      "allowSkillsetToReadFileData": true
+    }
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "metadata_storage_path",
+      "targetFieldName": "blob_url",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}

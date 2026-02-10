@@ -1,0 +1,30 @@
+{
+  "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#knowledgebases/$entity",
+  "@odata.etag": "\"0x8DE68CFC84D32CB\"",
+  "name": "knowledgebase-1770691449676",
+  "description": "Knowledge base created in Az Search UI in the portal  by Emm on 2/9 evening.",
+  "retrievalInstructions": "",
+  "answerInstructions": null,
+  "outputMode": "extractiveData",
+  "knowledgeSources": [
+    {
+      "name": "knowledgesource-1770690128331"
+    }
+  ],
+  "models": [
+    {
+      "kind": "azureOpenAI",
+      "azureOpenAIParameters": {
+        "resourceUri": "https://oai-swc-s3-ai-foundryv2-demo-01.openai.azure.com",
+        "deploymentId": "gpt-5",
+        "apiKey": "<redacted>",
+        "modelName": "gpt-5",
+        "authIdentity": null
+      }
+    }
+  ],
+  "encryptionKey": null,
+  "retrievalReasoningEffort": {
+    "kind": "medium"
+  }
+}

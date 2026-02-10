@@ -1,0 +1,61 @@
+{
+  "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#knowledgesources/$entity",
+  "@odata.etag": "\"0x8DE68CFC8520F58\"",
+  "name": "knowledgesource-1770690128331",
+  "kind": "azureBlob",
+  "description": "Manual test through portal by Emm on 2/9 evening. Requires 2 models deployed in Az OpenAI: text-embedding-ada-002 + gpt-5",
+  "encryptionKey": null,
+  "searchIndexParameters": null,
+  "azureBlobParameters": {
+    "connectionString": "<redacted>",
+    "containerName": "manuals",
+    "folderPath": "pdfs",
+    "isADLSGen2": null,
+    "ingestionParameters": {
+      "disableImageVerbalization": false,
+      "ingestionPermissionOptions": [],
+      "contentExtractionMode": "standard",
+      "identity": null,
+      "embeddingModel": {
+        "kind": "azureOpenAI",
+        "azureOpenAIParameters": {
+          "resourceUri": "https://oai-swc-s3-ai-foundryv2-demo-01.openai.azure.com",
+          "deploymentId": "text-embedding-ada-002",
+          "apiKey": "<redacted>",
+          "modelName": "text-embedding-ada-002",
+          "authIdentity": null
+        }
+      },
+      "chatCompletionModel": {
+        "kind": "azureOpenAI",
+        "azureOpenAIParameters": {
+          "resourceUri": "https://oai-swc-s3-ai-foundryv2-demo-01.openai.azure.com",
+          "deploymentId": "gpt-5",
+          "apiKey": "<redacted>",
+          "modelName": "gpt-5",
+          "authIdentity": null
+        }
+      },
+      "ingestionSchedule": {
+        "interval": "P1D",
+        "startTime": null
+      },
+      "assetStore": null,
+      "aiServices": {
+        "uri": "https://ais-swc-s3-ai-foundryv2-demo-01.cognitiveservices.azure.com/",
+        "apiKey": null
+      }
+    },
+    "createdResources": {
+      "datasource": "knowledgesource-1770690128331-datasource",
+      "indexer": "knowledgesource-1770690128331-indexer",
+      "skillset": "knowledgesource-1770690128331-skillset",
+      "index": "knowledgesource-1770690128331-index"
+    }
+  },
+  "mcpToolParameters": null,
+  "webParameters": null,
+  "remoteSharePointParameters": null,
+  "indexedSharePointParameters": null,
+  "indexedOneLakeParameters": null
+}
