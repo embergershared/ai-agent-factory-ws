@@ -1,0 +1,48 @@
+###############################################################################
+# Example variable values – copy to terraform.tfvars and fill in
+###############################################################################
+
+subscription_id = "__AZURE_SUBSCRIPTION_ID__"
+project_name    = "pumps"
+environment     = "dev"
+location        = "swedencentral"
+sequence_number = "01"
+
+extra_tags = {
+  CostCenter = "AI-Team"
+}
+
+# Networking
+vnet_address_space = "10.0.0.0/16"
+
+# Storage
+storage_account_tier     = "Standard"
+storage_replication_type = "LRS"
+
+# Key Vault
+key_vault_sku = "standard"
+
+# AI Search
+ai_search_sku = "basic"
+
+# Azure OpenAI
+openai_sku = "S0"
+openai_model_deployments = {
+  "gpt-4o" = {
+    model_name    = "gpt-4o"
+    model_version = "2024-11-20"
+  }
+}
+
+# Cognitive Services
+cognitive_services_sku = "S0"
+
+# Cosmos DB
+cosmosdb_consistency_level = "Session"
+cosmosdb_enable_free_tier  = false
+
+# Container Registry
+acr_sku = "Basic"
+
+# Container Apps
+container_apps_log_analytics_retention = 30
