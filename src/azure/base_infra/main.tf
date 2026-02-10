@@ -197,16 +197,16 @@ module "ai_services" {
   tags                = local.common_tags
 }
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# 14. AI Foundry Project
-# ═══════════════════════════════════════════════════════════════════════════════
-module "ai_foundry_project" {
-  source = "../modules/ai_foundry_project"
+# # ═══════════════════════════════════════════════════════════════════════════════
+# # 14. AI Foundry Project
+# # ═══════════════════════════════════════════════════════════════════════════════
+# module "ai_foundry_project" {
+#   source = "../modules/ai_foundry_project"
 
-  project_name           = var.pump_foundry_project_name
-  project_description    = var.pump_foundry_project_description
-  ai_services_account_id = module.ai_services.id
-  location               = module.resource_group.location
-  tags                   = local.common_tags
-}
+#   project_name           = var.pump_foundry_project_name
+#   project_description    = var.pump_foundry_project_description
+#   ai_services_account_id = module.ai_services.id
+#   location               = module.resource_group.location
+#   tags                   = local.common_tags
+# }
 #*/
