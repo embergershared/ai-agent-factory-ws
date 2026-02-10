@@ -89,4 +89,112 @@ module "ai_foundry_project" {
   tags                   = local.common_tags
 }
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# 6. Container App – MCP Pump Switch
+#
+#    Runs the mcp-pump-switch container image from ACR as a public HTTPS site
+#    inside the Container Apps Environment created by base_infra.
+#
+#    A User-Assigned Managed Identity is created first and granted AcrPull
+#    on the registry BEFORE the Container App is created, avoiding the
+#    chicken-and-egg problem with System-Assigned identities.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# 6a. User-Assigned Managed Identity for ACR pull
+resource "azurerm_user_assigned_identity" "aca_identity" {
+  name                = "id-ca-mcp-pump-switch"
+  location            = data.azurerm_resource_group.base.location
+  resource_group_name = data.azurerm_resource_group.base.name
+  tags                = local.common_tags
+}
+
+# 6b. Grant the identity AcrPull BEFORE the Container App is created
+resource "azurerm_role_assignment" "aca_acr_pull" {
+  scope                = data.azurerm_container_registry.base.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.aca_identity.principal_id
+}
+
+# 6c. Container App
+resource "azurerm_container_app" "mcp_pump_switch" {
+  name                         = "aca-app-mcp-pump-switch"
+  resource_group_name          = data.azurerm_resource_group.base.name
+  container_app_environment_id = data.azurerm_container_app_environment.base.id
+  revision_mode                = "Single"
+
+  depends_on = [azurerm_role_assignment.aca_acr_pull]
+
+  # Pull image from ACR using the pre-configured managed identity
+  registry {
+    server   = data.azurerm_container_registry.base.login_server
+    identity = azurerm_user_assigned_identity.aca_identity.id
+  }
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.aca_identity.id]
+  }
+
+  ingress {
+    external_enabled = true
+    target_port      = 8000
+    transport        = "auto"
+
+    traffic_weight {
+      latest_revision = true
+      percentage      = 100
+    }
+  }
+
+  template {
+    min_replicas = 0
+    max_replicas = 1
+
+    container {
+      name   = "mcp-pump-switch"
+      image  = var.mcp_container_image
+      cpu    = var.mcp_container_cpu
+      memory = var.mcp_container_memory
+
+      env {
+        name  = "MCP_API_KEY"
+        value = var.mcp_api_key
+      }
+    }
+  }
+
+  tags = local.common_tags
+}
+
+# Create the code to deploy "text-embedding-ada-002" in Azure Open AI oai-swc-s3-ai-foundryv2-demo-01
+
+resource "azurerm_openai_deployment" "text_embedding_ada_002" {
+  name                = "text-embedding-ada-002"
+  resource_group_name = data.azurerm_resource_group.base.name
+  location            = data.azurerm_resource_group.base.location
+  model               = "text-embedding-ada-002"
+  version             = "2024-02-15"
+  tags                = local.common_tags
+}
+
+# Create the code to deploy "gpt-5" in Azure Open AI oai-swc-s3-ai-foundryv2-demo-01
+
+resource "azurerm_openai_deployment" "gpt_5" {
+  name                = "gpt-5"
+  resource_group_name = data.azurerm_resource_group.base.name
+  location            = data.azurerm_resource_group.base.location
+  model               = "gpt-5"
+  version             = "2024-02-15"
+  tags                = local.common_tags
+}
+
+# Assign "Storage Blob Data Reader" for Azure Search on Storage account container
+
+# Assign "Cognitive Services User" for Azure Search role on the Foundry resource (Error: Unable to connect to AI Services using managed identity. Ensure the identity has been granted permission Cognitive Services User on the AI Service.)
+
+
+# Create MCP tool
+
+# Publish agent
+# https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/publish-agent?view=foundry
 

@@ -120,3 +120,39 @@ variable "pump_foundry_project_description" {
   type        = string
   default     = "Demo project in Foundry v2"
 }
+
+# ─── Container App (MCP Pump Switch) ─────────────────────────────────────────
+variable "base_infra_aca_env_name" {
+  description = "Name of the Container Apps Environment from base_infra."
+  type        = string
+}
+
+variable "base_infra_acr_name" {
+  description = "Name of the Azure Container Registry from base_infra."
+  type        = string
+}
+
+variable "mcp_container_image" {
+  description = "Full container image reference (registry/repo:tag)."
+  type        = string
+  default     = "acrswcs3aifoundryv2demo012uc24.azurecr.io/mcp-pump-switch:latest"
+}
+
+variable "mcp_container_cpu" {
+  description = "CPU cores for the MCP container."
+  type        = number
+  default     = 0.5
+}
+
+variable "mcp_container_memory" {
+  description = "Memory (in Gi) for the MCP container."
+  type        = string
+  default     = "1Gi"
+}
+
+variable "mcp_api_key" {
+  description = "API key for the MCP server endpoint."
+  type        = string
+  sensitive   = true
+  default     = "dev-secret"
+}

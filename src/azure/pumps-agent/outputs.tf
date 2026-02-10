@@ -31,3 +31,14 @@ output "folder_path" {
   description = "Virtual folder path inside the container."
   value       = "${var.folder_name}/"
 }
+
+# ─── Container App ──────────────────────────────────────────────────────────
+output "mcp_pump_switch_fqdn" {
+  description = "Public FQDN of the MCP Pump Switch container app."
+  value       = azurerm_container_app.mcp_pump_switch.ingress[0].fqdn
+}
+
+output "mcp_pump_switch_url" {
+  description = "Public HTTPS URL of the MCP Pump Switch container app."
+  value       = "https://${azurerm_container_app.mcp_pump_switch.ingress[0].fqdn}"
+}
