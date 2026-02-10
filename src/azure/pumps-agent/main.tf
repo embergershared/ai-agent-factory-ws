@@ -188,12 +188,24 @@ resource "azurerm_openai_deployment" "gpt_5" {
   tags                = local.common_tags
 }
 
-# Assign "Storage Blob Data Reader" for Azure Search on Storage account container
+# Assign "Storage Blob Data Contributor" for Azure Search ID on Storage account container (Reader is enough got KS, but Contributor is needed for multimodal RAG embeddings of images, since it writes in a blob container)
 
-# Assign "Cognitive Services User" for Azure Search role on the Foundry resource (Error: Unable to connect to AI Services using managed identity. Ensure the identity has been granted permission Cognitive Services User on the AI Service.)
+# Assign "Cognitive Services User" for Azure Search ID role on the Foundry resource (Error: Unable to connect to AI Services using managed identity. Ensure the identity has been granted permission Cognitive Services User on the AI Service.)
+
+
+# Foundry IQ settings
+## requires to connect Foundry to an Azure Search
+
+# Then create the indexes in Azure Search
 
 
 # Create MCP tool
+# Connection:
+## MCP server endpoint: https://aca-app-mcp-pump-switch.yellowcliff-006a1b15.swedencentral.azurecontainerapps.io/mcp
+## Authentication: Key-based
+## Credential:
+##      X-API-Key: "${var.mcp_api_key}"
+
 
 # Publish agent
 # https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/publish-agent?view=foundry
