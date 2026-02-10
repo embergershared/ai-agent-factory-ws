@@ -1,0 +1,30 @@
+{
+  "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#knowledgebases/$entity",
+  "@odata.etag": "\"0x8DE68CFC848F1F3\"",
+  "name": "kb-multimodal-rag-search-index",
+  "description": "",
+  "retrievalInstructions": "",
+  "answerInstructions": "",
+  "outputMode": "extractiveData",
+  "knowledgeSources": [
+    {
+      "name": "knowledgesource-multimodal-rag"
+    }
+  ],
+  "models": [
+    {
+      "kind": "azureOpenAI",
+      "azureOpenAIParameters": {
+        "resourceUri": "https://ais-swc-s3-ai-foundryv2-demo-01.openai.azure.com",
+        "deploymentId": "gpt-4.1",
+        "apiKey": "<redacted>",
+        "modelName": "gpt-4.1",
+        "authIdentity": null
+      }
+    }
+  ],
+  "encryptionKey": null,
+  "retrievalReasoningEffort": {
+    "kind": "minimal"
+  }
+}

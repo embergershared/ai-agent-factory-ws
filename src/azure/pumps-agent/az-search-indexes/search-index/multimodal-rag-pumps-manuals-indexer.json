@@ -1,0 +1,29 @@
+{
+  "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#indexers/$entity",
+  "@odata.etag": "\"0x8DE68CA1F1D4BD1\"",
+  "name": "multimodal-rag-pumps-manuals-indexer",
+  "description": null,
+  "dataSourceName": "multimodal-rag-pumps-manuals-datasource",
+  "skillsetName": "multimodal-rag-pumps-manuals-skillset",
+  "targetIndexName": "multimodal-rag-pumps-manuals",
+  "disabled": null,
+  "schedule": null,
+  "parameters": {
+    "batchSize": 1,
+    "maxFailedItems": -1,
+    "maxFailedItemsPerBatch": 0,
+    "configuration": {
+      "allowSkillsetToReadFileData": true
+    }
+  },
+  "fieldMappings": [
+    {
+      "sourceFieldName": "metadata_storage_name",
+      "targetFieldName": "document_title",
+      "mappingFunction": null
+    }
+  ],
+  "outputFieldMappings": [],
+  "cache": null,
+  "encryptionKey": null
+}
