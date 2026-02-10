@@ -1,7 +1,7 @@
 {
   "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#knowledgesources/$entity",
   "@odata.etag": "\"0x8DE68CB0C1DE234\"",
-  "name": "knowledgesource-multimodal-rag",
+  "name": "multimodal-rag-pumps-manuals-knowledge-source",
   "kind": "searchIndex",
   "description": "Knowledge source that uses the Multimodal RAG index created by the import wizard.",
   "encryptionKey": null,

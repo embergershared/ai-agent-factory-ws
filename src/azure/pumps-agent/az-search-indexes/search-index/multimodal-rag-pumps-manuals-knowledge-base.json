@@ -1,14 +1,14 @@
 {
   "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#knowledgebases/$entity",
   "@odata.etag": "\"0x8DE68CFC848F1F3\"",
-  "name": "kb-multimodal-rag-search-index",
+  "name": "multimodal-rag-pumps-manuals-knowledge-base",
   "description": "",
   "retrievalInstructions": "",
   "answerInstructions": "",
   "outputMode": "extractiveData",
   "knowledgeSources": [
     {
-      "name": "knowledgesource-multimodal-rag"
+      "name": "multimodal-rag-pumps-manuals-knowledge-source"
     }
   ],
   "models": [
