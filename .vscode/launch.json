@@ -5,11 +5,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Foundry SDK",
+      "name": "deploy-pumps-agent",
       "type": "debugpy",
       "request": "launch",
       "program": "${file}",
-      "cwd": "${workspaceFolder}/src/pumps-agent/ai-foundry",
+      "cwd": "${workspaceFolder}/src/foundry-sdk-python/deploy-pumps-agent",
       "console": "integratedTerminal"
     },
     {
@@ -24,7 +24,7 @@
         "--port",
         "8010"
       ],
-      "cwd": "${workspaceFolder}/src/pumps-agent/mcp-pump-switch",
+      "cwd": "${workspaceFolder}/src/pump-switch-mcp-server",
       "console": "integratedTerminal"
     }
   ]

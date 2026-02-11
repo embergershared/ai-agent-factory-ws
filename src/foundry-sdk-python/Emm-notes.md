@@ -1,7 +1,23 @@
 # Manage Foundry agents with Foundry SDK
 
+## Overview
 
 
+## Coding steps
+
+1. Create the virtual environment
+
+
+```pwsh
+# Create the venv
+python -m venv venv
+
+# On Windows (PowerShell)
+venv\Scripts\Activate.ps1
+
+# Install requirements
+pip install -r requirements.txt
+```
 
 
 
