@@ -35,6 +35,8 @@ locals {
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. Data Source
+#    Registers the blob storage connection (managed-identity based).
+#    This is the first step; the indexer will later validate credentials.
 # ─────────────────────────────────────────────────────────────────────────────
 resource "terraform_data" "datasource" {
   triggers_replace = {
@@ -49,10 +51,19 @@ resource "terraform_data" "datasource" {
   }
 }
 
+# Wait for the datasource REST call to settle before creating the index
+resource "time_sleep" "after_datasource" {
+  depends_on      = [terraform_data.datasource]
+  create_duration = "5s"
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 2. Index
+#    Defines the search index schema (fields, vector search, semantic config).
 # ─────────────────────────────────────────────────────────────────────────────
 resource "terraform_data" "index" {
+  depends_on = [time_sleep.after_datasource]
+
   triggers_replace = {
     prefix       = var.index_prefix
     cog_endpoint = local.cog_subdomain_url
@@ -64,11 +75,19 @@ resource "terraform_data" "index" {
   }
 }
 
+# Wait for the index REST call to settle before creating the skillset
+resource "time_sleep" "after_index" {
+  depends_on      = [terraform_data.index]
+  create_duration = "5s"
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. Skillset
+#    Document extraction, chunking, and vectorisation skills.
+#    Depends on: Index (references index fields for projections).
 # ─────────────────────────────────────────────────────────────────────────────
 resource "terraform_data" "skillset" {
-  depends_on = [terraform_data.index]
+  depends_on = [time_sleep.after_index]
 
   triggers_replace = {
     prefix       = var.index_prefix
@@ -82,15 +101,20 @@ resource "terraform_data" "skillset" {
   }
 }
 
+# Wait for the skillset REST call to settle before creating the indexer
+resource "time_sleep" "after_skillset" {
+  depends_on      = [terraform_data.skillset]
+  create_duration = "5s"
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 4. Indexer
+#    Orchestrates the pipeline: datasource → skillset → index.
+#    Depends on: Data Source, Index, Skillset (all three must exist).
+#    This step validates the storage connection credentials at creation time.
 # ─────────────────────────────────────────────────────────────────────────────
 resource "terraform_data" "indexer" {
-  depends_on = [
-    terraform_data.datasource,
-    terraform_data.index,
-    terraform_data.skillset,
-  ]
+  depends_on = [time_sleep.after_skillset]
 
   triggers_replace = {
     prefix = var.index_prefix
@@ -102,11 +126,18 @@ resource "terraform_data" "indexer" {
   }
 }
 
+# Wait for the indexer REST call to settle before creating the knowledge source
+resource "time_sleep" "after_indexer" {
+  depends_on      = [terraform_data.indexer]
+  create_duration = "5s"
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 5. Knowledge Source (Foundry IQ)
+#    Depends on: Indexer (index must be populated / pipeline must exist).
 # ─────────────────────────────────────────────────────────────────────────────
 resource "terraform_data" "knowledge_source" {
-  depends_on = [terraform_data.index]
+  depends_on = [time_sleep.after_indexer]
 
   triggers_replace = {
     prefix     = var.index_prefix
@@ -119,11 +150,18 @@ resource "terraform_data" "knowledge_source" {
   }
 }
 
+# Wait for the knowledge source REST call to settle before creating the knowledge base
+resource "time_sleep" "after_knowledge_source" {
+  depends_on      = [terraform_data.knowledge_source]
+  create_duration = "5s"
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 6. Knowledge Base (Foundry IQ)
+#    Depends on: Knowledge Source.
 # ─────────────────────────────────────────────────────────────────────────────
 resource "terraform_data" "knowledge_base" {
-  depends_on = [terraform_data.knowledge_source]
+  depends_on = [time_sleep.after_knowledge_source]
 
   triggers_replace = {
     prefix             = var.index_prefix

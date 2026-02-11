@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.21"
     }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.12"
+    }
   }
 
   # Uncomment and configure for remote state
