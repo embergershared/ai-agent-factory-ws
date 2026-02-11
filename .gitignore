@@ -183,4 +183,28 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,dotnetcore
+
+
+# Manual entries
 src/pumps-agent/.$pumps-agent_architecture.drawio.bkp
+
+
+# Terraform related entries
+**/terraform.tfstate*
+
+## Terraform artifacts
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfplan
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+## Sensitive variable files
+terraform.tfvars
+*.auto.tfvars
+
