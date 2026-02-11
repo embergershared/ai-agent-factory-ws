@@ -1,8 +1,8 @@
 {
   "@odata.context": "https://srch-swc-s3-ai-foundryv2-demo-01.search.windows.net/$metadata#datasources/$entity",
-  "@odata.etag": "\"0x8DE68CFC82DC030\"",
-  "name": "multimodal-rag-pumps-manuals-datasource",
-  "description": null,
+  "@odata.etag": "\"0x8DE6911D571A4A3\"",
+  "name": "knowledgesource-1770690128331-datasource",
+  "description": "Data source for knowledge source 'knowledgesource-1770690128331'",
   "type": "azureblob",
   "subtype": null,
   "indexerPermissionOptions": [],
@@ -10,8 +10,8 @@
     "connectionString": "ResourceId=/subscriptions/4c88693f-5cc9-4f30-9d1e-d58d4221cf25/resourceGroups/rg-swc-s3-ai-foundryv2-demo-01/providers/Microsoft.Storage/storageAccounts/stpumpsmanualsdemo01ff23;"
   },
   "container": {
-    "name": "manuals",
-    "query": "pdfs"
+    "name": "pumps-manuals",
+    "query": ""
   },
   "dataChangeDetectionPolicy": null,
   "dataDeletionDetectionPolicy": null,
