@@ -191,16 +191,16 @@ variable "foundry_sku" {
   type        = string
   default     = "S0"
 }
-variable "pump_foundry_project_name" {
-  description = "Project name for the Pump Foundry."
-  type        = string
-  default     = "demo-v2-project"
-}
-variable "pump_foundry_project_description" {
-  description = "Project description for the Pump Foundry."
-  type        = string
-  default     = "Demo project in Foundry v2"
-}
+# variable "pump_foundry_project_name" {
+#   description = "Project name for the Pump Foundry."
+#   type        = string
+#   default     = "demo-v2-project"
+# }
+# variable "pump_foundry_project_description" {
+#   description = "Project description for the Pump Foundry."
+#   type        = string
+#   default     = "Demo project in Foundry v2"
+# }
 
 # ─── Bot Service ─────────────────────────────────────────────────────────────
 variable "bot_service_sku" {

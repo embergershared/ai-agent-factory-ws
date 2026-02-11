@@ -225,19 +225,19 @@ module "app_registration" {
 # ═══════════════════════════════════════════════════════════════════════════════
 # 15. Bot Service
 # ═══════════════════════════════════════════════════════════════════════════════
-module "bot_service" {
-  source = "../modules/bot_service"
+# module "bot_service" {
+#   source = "../modules/bot_service"
 
-  name                    = local.bot_service_name
-  resource_group_name     = module.resource_group.name
-  sku                     = var.bot_service_sku
-  display_name            = local.bot_service_display_name
-  endpoint                = local.bot_service_endpoint
-  microsoft_app_id        = module.app_registration.client_id
-  microsoft_app_type      = var.bot_service_microsoft_app_type
-  microsoft_app_tenant_id = local.tenant_id
-  tags                    = local.common_tags
-}
+#   name                    = local.bot_service_name
+#   resource_group_name     = module.resource_group.name
+#   sku                     = var.bot_service_sku
+#   # display_name            = local.bot_service_display_name
+#   # endpoint                = local.bot_service_endpoint
+#   microsoft_app_id        = module.app_registration.client_id
+#   microsoft_app_type      = var.bot_service_microsoft_app_type
+#   microsoft_app_tenant_id = local.tenant_id
+#   tags                    = local.common_tags
+# }
 
 
 #*/

@@ -37,10 +37,10 @@ resource "terraform_data" "build_and_push_image" {
 # ═══════════════════════════════════════════════════════════════════════════════
 # 2. Storage Account
 # ═══════════════════════════════════════════════════════════════════════════════
-module "storage_account" {
+module "manuals_storage_account" {
   source = "../modules/storage_account"
 
-  name                = local.storage_account_name
+  name                = local.manuals_storage_account_name
   resource_group_name = data.azurerm_resource_group.base.name
   location            = data.azurerm_resource_group.base.location
   account_tier        = var.storage_account_tier
@@ -55,7 +55,7 @@ module "manuals_container" {
   source = "../modules/storage_container"
 
   name               = var.container_name
-  storage_account_id = module.storage_account.id
+  storage_account_id = module.manuals_storage_account.id
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -66,7 +66,7 @@ module "manuals_container" {
 # ═══════════════════════════════════════════════════════════════════════════════
 # resource "azurerm_storage_blob" "folder_marker" {
 #   name                   = "${var.folder_name}/.folder"
-#   storage_account_name   = module.storage_account.name
+#   storage_account_name   = module.manuals_storage_account.name
 #   storage_container_name = module.manuals_container.name
 #   type                   = "Block"
 #   content_type           = "application/octet-stream"
@@ -88,7 +88,7 @@ module "manuals_container" {
 module "sp_storage_blob_contributor" {
   source = "../modules/role_assignment"
 
-  scope                = module.storage_account.id
+  scope                = module.manuals_storage_account.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_client_config.current.object_id
 }
@@ -102,7 +102,7 @@ resource "terraform_data" "upload_manuals" {
 
   # Re-upload when the target container or storage account changes
   triggers_replace = {
-    storage_account = module.storage_account.name
+    storage_account = module.manuals_storage_account.name
     container       = module.manuals_container.name
   }
 
@@ -112,7 +112,7 @@ resource "terraform_data" "upload_manuals" {
       $env:AZCOPY_SPA_CLIENT_SECRET = '${var.client_secret}'
       ./azcopy login --service-principal --application-id '${var.client_id}' --tenant-id '${var.tenant_id}'
       if ($LASTEXITCODE -ne 0) { throw 'azcopy login failed' }
-      ./azcopy copy '../../manuals-pdfs/*' 'https://${module.storage_account.name}.blob.core.windows.net/${module.manuals_container.name}/' --recursive
+      ./azcopy copy '../../manuals-pdfs/*' 'https://${module.manuals_storage_account.name}.blob.core.windows.net/${module.manuals_container.name}/' --recursive
       if ($LASTEXITCODE -ne 0) { throw 'azcopy copy failed' }
     EOT
     interpreter = ["pwsh", "-NoProfile", "-Command"]
@@ -241,7 +241,7 @@ module "gpt_5_deployment" {
 module "search_storage_blob_contributor" {
   source = "../modules/role_assignment"
 
-  scope                = module.storage_account.id
+  scope                = module.manuals_storage_account.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_search_service.base.identity[0].principal_id
 }
@@ -273,7 +273,7 @@ module "search_index" {
   knowledge_api_version       = var.search_knowledge_api_version
   cognitive_services_name     = data.azurerm_cognitive_account.cognitive.name
   ai_services_name            = data.azurerm_cognitive_account.foundry.name
-  storage_account_resource_id = module.storage_account.id
+  storage_account_resource_id = module.manuals_storage_account.id
   blob_container_name         = var.container_name
   chat_deployment_name        = var.search_kb_chat_deployment
   chat_model_name             = var.search_kb_chat_model

@@ -96,7 +96,7 @@ locals {
     })
   }
 
-  # Bot Service
-  bot_service_display_name = "Agent Bot Service"
-  bot_service_endpoint     = "https://${local.ai_services_name}.services.ai.azure.com/api/projects/${var.pump_foundry_project_name}/applications/${var.bot_service_agent_name}/protocols/activityprotocol?api-version=2025-11-15-preview"
+  # # Bot Service
+  # bot_service_display_name = "Agent Bot Service"
+  # bot_service_endpoint     = "https://${local.ai_services_name}.services.ai.azure.com/api/projects/${var.pump_foundry_project_name}/applications/${var.bot_service_agent_name}/protocols/activityprotocol?api-version=2025-11-15-preview"
 }

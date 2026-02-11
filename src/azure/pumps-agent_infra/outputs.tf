@@ -17,19 +17,19 @@ output "subscription_id" {
   value       = var.subscription_id
 }
 
-output "storage_account_name" {
+output "manuals_storage_account_name" {
   description = "Name of the storage account."
-  value       = module.storage_account.name
+  value       = module.manuals_storage_account.name
 }
 
-output "storage_account_id" {
+output "manuals_storage_account_id" {
   description = "Resource ID of the storage account."
-  value       = module.storage_account.id
+  value       = module.manuals_storage_account.id
 }
 
-output "storage_account_blob_endpoint" {
+output "manuals_storage_account_blob_endpoint" {
   description = "Primary blob endpoint of the storage account."
-  value       = module.storage_account.primary_blob_endpoint
+  value       = module.manuals_storage_account.primary_blob_endpoint
 }
 
 output "container_name" {

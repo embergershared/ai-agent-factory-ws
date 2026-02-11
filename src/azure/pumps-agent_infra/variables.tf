@@ -28,14 +28,14 @@ variable "base_infra_rg_name" {
 }
 
 # ─── Storage Account ────────────────────────────────────────────────────────
-variable "storage_name_suffix" {
+variable "manuals_storage_name_suffix" {
   description = "Short suffix appended to the storage account name (e.g. 'manuals')."
   type        = string
   default     = "manuals"
 
   validation {
-    condition     = can(regex("^[a-z0-9]{1,10}$", var.storage_name_suffix))
-    error_message = "storage_name_suffix must be 1-10 lowercase alphanumeric characters (no hyphens)."
+    condition     = can(regex("^[a-z0-9]{1,20}$", var.manuals_storage_name_suffix))
+    error_message = "manuals_storage_name_suffix must be 1-20 lowercase alphanumeric characters (no hyphens)."
   }
 }
 
