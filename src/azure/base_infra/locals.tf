@@ -2,18 +2,6 @@
 # Locals – Naming conventions, common tags, derived values
 ###############################################################################
 
-data "azurerm_client_config" "current" {}
-
-resource "random_string" "suffix" {
-  length  = 3
-  special = false
-  upper   = false
-  numeric = true
-}
-
-# Captured once at creation, stored in state, never changes on subsequent runs
-resource "time_static" "created" {}
-
 locals {
   # ── Naming prefix ────────────────────────────────────────────────────────
   # Pattern: <project>-<env>-<seq>  →  e.g. "pumps-dev-01"
@@ -62,6 +50,25 @@ locals {
   aca_env_name            = "aca-env-${local.name_prefix}"
   log_analytics_name      = "law-${local.name_prefix}"
 
+  # AI ML Workspace: max 33 chars, alphanumeric + dashes only
+  ml_hub_name     = substr("aml-hub-${local.name_prefix}", 0, 33)
+  ml_project_name = substr("aml-proj-${local.name_prefix}", 0, 33)
+
+  # AI Foundry: max 33 chars, alphanumeric + dashes only
+  ai_hub_name     = substr("found-hub-${local.name_prefix}", 0, 33)
+  ai_project_name = substr("found-proj-${local.name_prefix}", 0, 33)
+
+  # AI Services (Cognitive Account)
+  ai_services_name        = "aisvc-res-${local.name_prefix}"
+  ai_foundry_project_name = "aisvc-proj-${local.name_prefix}"
+
+  # App Registration (Entra ID)
+  app_registration_name = "spn-391575-${local.name_prefix}"
+
+  # Bot Service
+  bot_service_name = "az-bot-${local.name_prefix}"
+
+
   # ── Subnet CIDR computation ─────────────────────────────────────────────
   # Carve /27 subnets (32 IPs each) from the VNet address space.
   # cidrsubnet(prefix, newbits, netnum) adds `newbits` to the prefix length
@@ -89,23 +96,7 @@ locals {
     })
   }
 
-  # AI ML Workspace: max 33 chars, alphanumeric + dashes only
-  ml_hub_name     = substr("aml-hub-${local.name_prefix}", 0, 33)
-  ml_project_name = substr("aml-proj-${local.name_prefix}", 0, 33)
-
-  # AI Foundry: max 33 chars, alphanumeric + dashes only
-  ai_hub_name     = substr("found-hub-${local.name_prefix}", 0, 33)
-  ai_project_name = substr("found-proj-${local.name_prefix}", 0, 33)
-
-  # AI Services (Cognitive Account)
-  ai_services_name        = "aisvc-res-${local.name_prefix}"
-  ai_foundry_project_name = "aisvc-proj-${local.name_prefix}"
-
-  # App Registration (Entra ID)
-  app_registration_name = "spn-391575-${local.name_prefix}"
-
   # Bot Service
-  bot_service_name         = "az-bot-${local.name_prefix}"
   bot_service_display_name = "Agent Bot Service"
   bot_service_endpoint     = "https://${local.ai_services_name}.services.ai.azure.com/api/projects/${var.pump_foundry_project_name}/applications/${var.bot_service_agent_name}/protocols/activityprotocol?api-version=2025-11-15-preview"
 }

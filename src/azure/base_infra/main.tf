@@ -6,6 +6,21 @@
 # the centralized locals and root variables.
 ###############################################################################
 
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 0. Internals
+# ═══════════════════════════════════════════════════════════════════════════════
+resource "random_string" "suffix" {
+  length  = 3
+  special = false
+  upper   = false
+  numeric = true
+}
+
+# Captured once at creation, stored in state, never changes on subsequent runs
+resource "time_static" "created" {}
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # 1. Resource Group
 # ═══════════════════════════════════════════════════════════════════════════════
