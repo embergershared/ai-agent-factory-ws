@@ -159,7 +159,7 @@ module "container_apps" {
 # 11. Application Insights (shared, needed by AI Foundry)
 # ═══════════════════════════════════════════════════════════════════════════════
 resource "azurerm_application_insights" "this" {
-  name                = "appi-${local.name_prefix}"
+  name                = local.app_insights_name
   location            = module.resource_group.location
   resource_group_name = module.resource_group.name
   application_type    = "web"
@@ -197,9 +197,9 @@ module "ai_services" {
   tags                = local.common_tags
 }
 
-###############################################################################
-# 14b. App Registration (Entra ID) – for Bot Service
-###############################################################################
+# ═══════════════════════════════════════════════════════════════════════════════
+# 14. App Registration (Entra ID) for Bot Service
+# ═══════════════════════════════════════════════════════════════════════════════
 module "app_registration" {
   source = "../modules/app_registration"
 
@@ -207,9 +207,9 @@ module "app_registration" {
   owners       = [local.object_id]
 }
 
-###############################################################################
+# ═══════════════════════════════════════════════════════════════════════════════
 # 15. Bot Service
-###############################################################################
+# ═══════════════════════════════════════════════════════════════════════════════
 module "bot_service" {
   source = "../modules/bot_service"
 

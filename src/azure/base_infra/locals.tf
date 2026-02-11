@@ -5,7 +5,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "random_string" "suffix" {
-  length  = 5
+  length  = 3
   special = false
   upper   = false
   numeric = true
@@ -54,12 +54,13 @@ locals {
   # "kv-" (3) + "-" (1) + suffix (5) = 9 fixed chars → 15 chars for prefix
   key_vault_name          = substr("kv-${local.name_prefix}-${local.unique_suffix}", 0, 24)
   ai_search_name          = "srch-${local.name_prefix}"
-  openai_name             = "oai-${local.name_prefix}"
-  cognitive_services_name = "cog-${local.name_prefix}"
+  openai_name             = "azopenai-${local.name_prefix}"
+  cognitive_services_name = "cogsvc-${local.name_prefix}"
   cosmosdb_account_name   = "cosmos-${local.name_prefix}"
   acr_name                = "acr${local.name_prefix_clean}${local.unique_suffix}"
-  aca_env_name            = "acaenv-${local.name_prefix}"
-  log_analytics_name      = "log-${local.name_prefix}"
+  app_insights_name       = "app-ins-${local.name_prefix}"
+  aca_env_name            = "aca-env-${local.name_prefix}"
+  log_analytics_name      = "law-${local.name_prefix}"
 
   # ── Subnet CIDR computation ─────────────────────────────────────────────
   # Carve /27 subnets (32 IPs each) from the VNet address space.
@@ -93,12 +94,12 @@ locals {
   ml_project_name = substr("aml-proj-${local.name_prefix}", 0, 33)
 
   # AI Foundry: max 33 chars, alphanumeric + dashes only
-  ai_hub_name     = substr("aif-hub-${local.name_prefix}", 0, 33)
-  ai_project_name = substr("aif-proj-${local.name_prefix}", 0, 33)
+  ai_hub_name     = substr("found-hub-${local.name_prefix}", 0, 33)
+  ai_project_name = substr("found-proj-${local.name_prefix}", 0, 33)
 
   # AI Services (Cognitive Account)
-  ai_services_name        = "ais-${local.name_prefix}"
-  ai_foundry_project_name = "aiproj-${local.name_prefix}"
+  ai_services_name        = "aisvc-res-${local.name_prefix}"
+  ai_foundry_project_name = "aisvc-proj-${local.name_prefix}"
 
   # App Registration (Entra ID)
   app_registration_name = "spn-391575-${local.name_prefix}"
