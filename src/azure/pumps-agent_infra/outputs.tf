@@ -27,10 +27,6 @@ output "container_name" {
   value       = module.manuals_container.name
 }
 
-output "folder_path" {
-  description = "Virtual folder path inside the container."
-  value       = "${var.folder_name}/"
-}
 
 # ─── Container App ──────────────────────────────────────────────────────────
 output "mcp_pump_switch_fqdn" {

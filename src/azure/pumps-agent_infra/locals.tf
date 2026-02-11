@@ -22,6 +22,9 @@ locals {
 
   # ── Resource names ───────────────────────────────────────────────────────
   storage_account_name = substr("st${local.name_prefix_clean}${local.unique_suffix}", 0, 24)
+  uai_aca_app_name     = "uaid-aca-app-${var.mcp_app_name}"
+  aca_app_name         = "aca-app-${var.mcp_app_name}"
+  aca_container_name   = "${replace(var.mcp_app_name, "-", "")}-container"
 
   # ── Common tags ──────────────────────────────────────────────────────────
   common_tags = merge(

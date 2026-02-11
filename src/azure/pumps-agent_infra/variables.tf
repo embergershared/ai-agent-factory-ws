@@ -96,13 +96,7 @@ variable "storage_replication_type" {
 variable "container_name" {
   description = "Name of the blob container for storing manuals."
   type        = string
-  default     = "manuals"
-}
-
-variable "folder_name" {
-  description = "Virtual folder path inside the container for PDF files."
-  type        = string
-  default     = "pdfs"
+  default     = "pumps-manuals"
 }
 
 # ─── AI Foundry Project ─────────────────────────────────────────────────────
@@ -130,6 +124,58 @@ variable "base_infra_aca_env_name" {
 variable "base_infra_acr_name" {
   description = "Name of the Azure Container Registry from base_infra."
   type        = string
+}
+
+variable "base_infra_ai_search_name" {
+  description = "Name of the Azure AI Search service from base_infra."
+  type        = string
+}
+
+variable "base_infra_cognitive_services_name" {
+  description = "Name of the Cognitive Services (multi-service) account from base_infra."
+  type        = string
+}
+
+variable "base_infra_openai_name" {
+  description = "Name of the Azure OpenAI account from base_infra."
+  type        = string
+}
+
+# ─── Search Index Settings ───────────────────────────────────────────────────
+variable "search_index_prefix" {
+  description = "Name prefix for all Search index resources (datasource, index, skillset, indexer, knowledge source, knowledge base)."
+  type        = string
+  default     = "multimodal-rag-test"
+}
+
+variable "search_index_api_version" {
+  description = "Azure Search REST API version for index operations."
+  type        = string
+  default     = "2025-05-01-preview"
+}
+
+variable "search_knowledge_api_version" {
+  description = "Azure Search REST API version for knowledge source/base operations."
+  type        = string
+  default     = "2025-11-01-preview"
+}
+
+variable "search_kb_chat_deployment" {
+  description = "Azure OpenAI chat deployment name used by the knowledge base."
+  type        = string
+  default     = "gpt-4.1"
+}
+
+variable "search_kb_chat_model" {
+  description = "Azure OpenAI chat model name used by the knowledge base."
+  type        = string
+  default     = "gpt-4.1"
+}
+
+variable "mcp_app_name" {
+  description = "Short name for the MCP app, used to build resource names."
+  type        = string
+  default     = "mcp-pump-switch"
 }
 
 variable "mcp_container_image" {
