@@ -1,5 +1,5 @@
 ###############################################################################
-# Provider Configuration – Manuals Storage
+# Provider Configuration - Manuals Storage
 ###############################################################################
 
 provider "azurerm" {

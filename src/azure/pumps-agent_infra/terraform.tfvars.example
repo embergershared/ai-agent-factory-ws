@@ -1,4 +1,4 @@
-# Manuals Storage – Example Variable Values
+# Manuals Storage - Example Variable Values
 # Copy this file to values.auto.tfvars and fill in your values.
 
 subscription_id = ""
@@ -6,21 +6,9 @@ tenant_id       = ""
 client_id       = ""
 client_secret   = ""
 
-# Base infra reference (must match the base_infra deployment values)
-base_infra_project_name = "swc-s3-ai-pumps-agent"
-# base_infra_environment     = "demo"   # defaults to this deployment's environment
-# base_infra_sequence_number = "01"     # defaults to this deployment's sequence_number
-
-project_name    = "pumps-manuals"
-environment     = "demo"
-location        = "swedencentral"
-sequence_number = "01"
+# Base infra reference (all resource names are derived from the RG name)
+base_infra_rg_name = "rg-..."
 
 storage_account_tier     = "Standard"
 storage_replication_type = "LRS"
 container_name           = "manuals"
-folder_name              = "pdfs"
-
-extra_tags = {
-  # Owner = "your-name"
-}

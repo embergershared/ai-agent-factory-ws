@@ -1,5 +1,5 @@
 ###############################################################################
-# Outputs – Manuals Storage
+# Outputs - Manuals Storage
 ###############################################################################
 
 output "resource_group_name" {
@@ -40,7 +40,7 @@ output "container_name" {
 # ─── AI Foundry ──────────────────────────────────────────────────────────────
 output "foundry_resource_name" {
   description = "Name of the AI Foundry (AI Services) resource."
-  value       = data.azurerm_cognitive_account.base.name
+  value       = data.azurerm_cognitive_account.foundry.name
 }
 
 output "foundry_project_name" {
@@ -69,7 +69,7 @@ output "aoai_endpoint" {
 # ─── AI Services (Cognitive Services) ────────────────────────────────────────
 output "ai_services_endpoint" {
   description = "AI Services (Cognitive Services) endpoint URL."
-  value       = data.azurerm_cognitive_account.base.endpoint
+  value       = data.azurerm_cognitive_account.foundry.endpoint
 }
 
 # ─── Container App ──────────────────────────────────────────────────────────

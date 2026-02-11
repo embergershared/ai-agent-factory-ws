@@ -1,5 +1,5 @@
 ###############################################################################
-# Terraform & Provider Configuration – Manuals Storage
+# Terraform & Provider Configuration - Manuals Storage
 ###############################################################################
 
 terraform {
@@ -9,10 +9,6 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 4.21"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.5"
     }
   }
 

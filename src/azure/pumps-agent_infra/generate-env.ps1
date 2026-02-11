@@ -15,7 +15,7 @@
 param(
   [string] $OutputPath = "../../../src/foundry-sdk-python/deploy-pumps-agent/.env",
 
-  # Model deployment names (not managed by Terraform yet – override as needed)
+  # Model deployment names (not managed by Terraform yet - override as needed)
   [string] $EmbeddingDeployment = "text-embedding-3-large",
   [string] $EmbeddingModel = "text-embedding-3-large",
   [string] $ChatDeployment = "gpt-5-mini",

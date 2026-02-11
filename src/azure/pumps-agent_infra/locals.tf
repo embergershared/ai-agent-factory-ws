@@ -1,38 +1,28 @@
 ###############################################################################
-# Locals – Naming conventions, common tags
+# Locals - Naming conventions, common tags
 ###############################################################################
 
-resource "random_string" "suffix" {
-  length  = 5
-  special = false
-  upper   = false
-  numeric = true
-}
-
 locals {
-  # ── Naming prefix ────────────────────────────────────────────────────────
-  name_prefix       = "${var.project_name}-${var.environment}-${var.sequence_number}"
-  name_prefix_clean = replace(local.name_prefix, "-", "")
-  unique_suffix     = random_string.suffix.result
+  # ── Naming ───────────────────────────────────────────────────────────────
+  # pumps-agent resources use the base_infra naming prefix + random suffix
+  name_prefix_clean = local.base_infra_name_prefix_clean
 
-  # ── Base infra resource group name (must match base_infra naming) ────────
-  base_infra_env     = coalesce(var.base_infra_environment, var.environment)
-  base_infra_seq     = coalesce(var.base_infra_sequence_number, var.sequence_number)
-  base_infra_rg_name = "rg-${var.base_infra_project_name}-${local.base_infra_env}-${local.base_infra_seq}"
+  # Reuse the 3-char random suffix from base_infra (extracted in data.tf)
+  unique_suffix = local.discovered_base_infra_suffix
 
   # ── Resource names ───────────────────────────────────────────────────────
-  storage_account_name = substr("st${local.name_prefix_clean}${local.unique_suffix}", 0, 24)
+  # Storage: st<base_prefix_clean><suffix><unique>  (max 24 chars)
+  storage_account_name = substr("st${var.storage_name_suffix}${local.unique_suffix}", 0, 24)
   uai_aca_app_name     = "uaid-aca-app-${var.mcp_app_name}"
   aca_app_name         = "aca-app-${var.mcp_app_name}"
   aca_container_name   = "${replace(var.mcp_app_name, "-", "")}-container"
 
+  # Container image reference (derived from discovered ACR)
+  mcp_container_image = "${data.azurerm_container_registry.base.login_server}/${var.mcp_app_name}:latest"
+
   # ── Common tags ──────────────────────────────────────────────────────────
-  common_tags = merge(
-    {
-      Project     = var.project_name
-      Environment = var.environment
-      ManagedBy   = "Terraform"
-    },
-    var.extra_tags,
-  )
+  common_tags = {
+    Project   = local.base_infra_name_prefix
+    ManagedBy = "Terraform"
+  }
 }
