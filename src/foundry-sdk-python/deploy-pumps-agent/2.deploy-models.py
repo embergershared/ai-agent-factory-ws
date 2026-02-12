@@ -16,8 +16,7 @@ Prerequisites:
     Authenticate with ``az login`` before running this script.
 
 Inspired from:
-    https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/
-    azure-ai-projects/samples/deployments/sample_deployments.py
+    https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/deployments/sample_deployments.py
 """
 
 from collections.abc import Sequence
