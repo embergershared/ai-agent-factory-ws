@@ -1,6 +1,8 @@
 """List and inspect Azure AI model deployments in a Foundry project.
 
-There is no way (found yet) to deploy models through code.
+There is no way (found yet) to deploy models through Foundry SDK.
+Has to be done with azure CLI / Bicep / terraform.
+
 Go to the project portal / Build and deploy these base-models:
 - DeepSeek-V3.2
 - gpt-5.2
@@ -8,6 +10,7 @@ Go to the project portal / Build and deploy these base-models:
 - gpt-5.2-codex
 - grok-4
 - Kimi-K2.5
+- Phi-4
 
 Requires the following environment variables (set in .env or shell):
     FOUNDRY_PROJECT_ENDPOINT         - The Foundry project endpoint URL.
@@ -20,6 +23,7 @@ Inspired from:
 """
 
 from collections.abc import Sequence
+from urllib.parse import urlparse
 
 import logging
 import os
@@ -51,12 +55,19 @@ def _print_deployment_details(deployment: ModelDeployment | object) -> None:
     print(details)
 
 
-def _print_deployments_table(deployments: Sequence[object]) -> None:
+def _print_deployments_table(deployments: Sequence[object], endpoint: str) -> None:
     """Print deployments as a formatted table.
 
     Columns: Name, Model, Version, Publisher, Chat, Deployment Type.
     """
-    headers = ("Name", "Model", "Version", "Publisher", "Chat", "Deployment Type")
+    parsed = urlparse(endpoint)
+    resource_name = parsed.hostname.split(".")[0] if parsed.hostname else ""
+    project_name = parsed.path.rstrip("/").rsplit("/", 1)[-1] if parsed.path else ""
+
+    print(f"Foundry resource: {resource_name}")
+    print(f"Foundry project:  {project_name}\n")
+
+    headers = ("Dep. Name", "Model", "Version", "Publisher", "Chat", "Dep. Type")
     rows: list[tuple[str, str, str, str, str, str]] = []
 
     for d in deployments:
@@ -103,11 +114,11 @@ def _print_deployments_table(deployments: Sequence[object]) -> None:
         print(fmt.format(*row))
 
 
-def _list_all_deployments(client: AIProjectClient) -> None:
+def _list_all_deployments(client: AIProjectClient, endpoint: str) -> None:
     """List every deployment in the project."""
     deployments = list(client.deployments.list())
     print(f"All deployments ({len(deployments)}):\n")
-    _print_deployments_table(deployments)
+    _print_deployments_table(deployments, endpoint)
 
 
 def _load_config() -> str:
@@ -135,7 +146,7 @@ def main() -> None:
         DefaultAzureCredential() as credential,
         AIProjectClient(endpoint=endpoint, credential=credential) as project_client,
     ):
-        _list_all_deployments(project_client)
+        _list_all_deployments(project_client, endpoint)
 
 
 if __name__ == "__main__":

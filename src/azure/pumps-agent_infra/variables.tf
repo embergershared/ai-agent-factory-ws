@@ -127,4 +127,15 @@ variable "search_kb_chat_model" {
   default     = "gpt-4.1"
 }
 
-
+# ─── Foundry Model Deployments ───────────────────────────────────────────────
+variable "foundry_model_deployments" {
+  description = "Map of Foundry model deployments to create. Key is the deployment name."
+  type = map(object({
+    model_name    = string
+    model_version = string
+    model_format  = string
+    sku_name      = string
+    sku_capacity  = number
+  }))
+  default = {}
+}

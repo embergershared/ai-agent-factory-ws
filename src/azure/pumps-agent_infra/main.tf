@@ -286,6 +286,24 @@ module "search_index" {
 }
 
 
+# Deploy the base models
+
+# Foundry model deployments, in Azure AI Services, to support the agent.
+module "foundry_models_deployment" {
+  source   = "../modules/az_foundry_deployment"
+  for_each = var.foundry_model_deployments
+
+  cognitive_account_id = data.azurerm_cognitive_account.foundry.id
+  deployment_name      = each.key
+
+  model_format  = each.value.model_format
+  model_name    = each.value.model_name
+  model_version = each.value.model_version
+
+  sku_name     = each.value.sku_name
+  sku_capacity = each.value.sku_capacity
+}
+
 # Create MCP tool
 # Connection:
 ## MCP server endpoint: https://aca-app-mcp-pump-switch.yellowcliff-006a1b15.swedencentral.azurecontainerapps.io/mcp

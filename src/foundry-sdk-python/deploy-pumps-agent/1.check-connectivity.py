@@ -1,4 +1,9 @@
-"""Check Azure AI Foundry connectivity and authentication."""
+"""Check Azure AI Foundry connectivity and authentication.
+
+Reference:
+    Microsoft Foundry SDKs and Endpoints: https://ai.azure.com/doc/azure/ai-foundry/how-to/develop/sdk-overview
+
+"""
 
 import os
 import sys
