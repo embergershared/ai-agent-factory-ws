@@ -58,9 +58,9 @@ def _print_deployments_table(deployments: Sequence[object], endpoint: str) -> No
     project_name = parsed.path.rstrip("/").rsplit("/", 1)[-1] if parsed.path else ""
 
     print(f"Foundry resource: {resource_name}")
-    print(f"Foundry project:  {project_name}\n")
+    print(f"Foundry  project: {project_name}\n")
 
-    headers = ("Dep. Name", "Model", "Version", "Publisher", "Chat", "Dep. Type")
+    headers = ("Name", "Model", "Version", "Publisher", "Chat", "Type (capacity)")
     rows: list[tuple[str, str, str, str, str, str]] = []
 
     for d in deployments:
