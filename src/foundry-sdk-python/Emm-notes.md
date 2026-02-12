@@ -35,3 +35,8 @@ pip install -r requirements.txt
 [Develop with AI models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?view=foundry-classic&tabs=python)
 
 [Claude in Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/use-foundry-models-claude?view=foundry-classic&tabs=python)
+
+
+[Foundry python SDK samples](https://github.com/Azure/azure-sdk-for-python/tree/release/azure-ai-projects/1.1.0b4/sdk/ai/azure-ai-projects/samples)
+
+[Agents samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/ai/azure-ai-agents/samples)
