@@ -1,16 +1,5 @@
-"""List and inspect Azure AI model deployments in a Foundry project.
-
-There is no way (found yet) to deploy models through Foundry SDK.
-Has to be done with azure CLI / Bicep / terraform.
-
-Go to the project portal / Build and deploy these base-models:
-- DeepSeek-V3.2
-- gpt-5.2
-- gpt-5.2-chat
-- gpt-5.2-codex
-- grok-4
-- Kimi-K2.5
-- Phi-4
+"""
+List and display Azure Foundry deployed models in a Foundry project.
 
 Requires the following environment variables (set in .env or shell):
     FOUNDRY_PROJECT_ENDPOINT         - The Foundry project endpoint URL.
@@ -20,6 +9,10 @@ Prerequisites:
 
 Inspired from:
     https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/deployments/sample_deployments.py
+
+Note:
+There are no Foundry SDK object to deploy models.
+They can be deployed using: Azure portal / Azure CLI / Bicep / terraform / maybe? Azure REST API.
 """
 
 from collections.abc import Sequence
