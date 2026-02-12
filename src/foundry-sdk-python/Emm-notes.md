@@ -32,4 +32,6 @@ pip install -r requirements.txt
 
 [Foundry Tools REST API reference](https://learn.microsoft.com/en-us/azure/ai-services/reference/rest-api-resources)
 
+[Develop with AI models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?view=foundry-classic&tabs=python)
 
+[Claude in Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/how-to/use-foundry-models-claude?view=foundry-classic&tabs=python)
