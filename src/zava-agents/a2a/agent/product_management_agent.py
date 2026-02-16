@@ -191,7 +191,7 @@ class AgentFrameworkProductManagementAgent:
         # Configure the chat completion service explicitly
         chat_service = get_chat_completion_service(ChatServices.AZURE_OPENAI)
 
-        # Define an MarketingAgent to handle marketing-related tasks
+        # Define a MarketingAgent to handle marketing-related tasks
         marketing_agent = Agent(
             client=chat_service,
             name="MarketingAgent",
@@ -202,7 +202,7 @@ class AgentFrameworkProductManagementAgent:
             ),
         )
 
-        # Define an RankerAgent to sort and recommend results
+        # Define a RankerAgent to sort and recommend results
         ranker_agent = Agent(
             client=chat_service,
             name="RankerAgent",
