@@ -154,7 +154,7 @@ def index() -> str:
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Toroshima Pump Switch status</h1>
+      <h1>Torishima Pump Switch</h1>
       <img id="switchImg" src="/static/switch_off.svg" alt="switch" />
       <div class="status" id="statusText">Status: OFF</div>
       <div class="hint">Click the switch image to toggle (web UI).</div>

@@ -6,13 +6,13 @@
 #   - Azure CLI installed and logged in (az login)
 #
 # Usage:
-#   .\build-and-push-to-acr.ps1
+#   .\build-and-push-to-acr.ps1 [-AcrName "acrswcs3aimsfoundrydemo02yim"]
 #   .\build-and-push-to-acr.ps1 -Tag "v2"
 # =============================================================================
 
 param(
   [Parameter(Mandatory = $false)]
-  [string]$AcrName,
+  [string]$AcrName = "acrswcs3aimsfoundrydemo02yim",
 
   [Parameter(Mandatory = $false)]
   [string]$ImageName = "mcp-pump-switch",
