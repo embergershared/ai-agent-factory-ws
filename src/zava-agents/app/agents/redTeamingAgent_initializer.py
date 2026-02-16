@@ -1,13 +1,10 @@
 # This script launches red-team attacks
 # Execute with: python app/agents/redTeamingAgent_initializer.py
 
-# Azure imports
-from azure.identity import DefaultAzureCredential
-from azure.ai.evaluation.red_team import RedTeam, RiskCategory, AttackStrategy
-from pyrit.prompt_target import OpenAIChatTarget
+# NOTE: Heavy Azure / PyRIT imports are deferred to the functions that
+# need them so the interactive menu appears instantly.
 import os
 import sys
-import json
 import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
@@ -111,8 +108,10 @@ def build_azure_openai_config() -> dict:
     }
 
 
-def build_chat_target() -> OpenAIChatTarget:
+def build_chat_target():
     """PyRIT OpenAIChatTarget pointing at the deployed model."""
+    from pyrit.prompt_target import OpenAIChatTarget
+
     return OpenAIChatTarget(
         model_name=os.environ.get("gpt_deployment"),
         endpoint=(
@@ -124,8 +123,11 @@ def build_chat_target() -> OpenAIChatTarget:
     )
 
 
-def build_red_team_agent() -> RedTeam:
+def build_red_team_agent():
     """Standard RedTeam agent with the 4 default risk categories."""
+    from azure.identity import DefaultAzureCredential
+    from azure.ai.evaluation.red_team import RedTeam, RiskCategory
+
     azure_ai_project = os.getenv("FOUNDRY_ENDPOINT")
     return RedTeam(
         azure_ai_project=azure_ai_project,
@@ -140,8 +142,11 @@ def build_red_team_agent() -> RedTeam:
     )
 
 
-def build_custom_attack_agent() -> RedTeam:
+def build_custom_attack_agent():
     """RedTeam agent loaded with custom seed prompts."""
+    from azure.identity import DefaultAzureCredential
+    from azure.ai.evaluation.red_team import RedTeam
+
     azure_ai_project = os.getenv("FOUNDRY_ENDPOINT")
     return RedTeam(
         azure_ai_project=azure_ai_project,
@@ -155,6 +160,8 @@ def build_custom_attack_agent() -> RedTeam:
 # ═════════════════════════════════════════════════════════════════════════════
 async def run_scan(choice: str):
     """Build the appropriate agent + target and run the scan."""
+    from azure.ai.evaluation.red_team import AttackStrategy
+
     result = None
 
     if choice == "1":
@@ -214,31 +221,189 @@ async def run_scan(choice: str):
 # Results display
 # ═════════════════════════════════════════════════════════════════════════════
 def display_results(result, choice: str):
-    """Print a human-readable summary of the scan results."""
+    """Print a human-readable synthesis table of the scan results."""
     attack_name = ATTACK_CHOICES[choice]["name"]
-    print("\n" + "─" * 60)
+    print("\n" + "─" * 70)
     print(f"  ✅  Scan complete: {attack_name}")
-    print("─" * 60)
+    print("─" * 70)
 
-    # The result object from RedTeam.scan() varies by SDK version.
-    # Try to display the most useful information available.
     if result is None:
         print("  (No result object returned.)\n")
         return
 
-    # If the result has a to_json / to_dict helper, dump it nicely
-    if hasattr(result, "to_dict"):
-        data = result.to_dict()
-        print(json.dumps(data, indent=2, default=str))
-    elif hasattr(result, "to_json"):
-        print(result.to_json(indent=2))
-    elif isinstance(result, dict):
-        print(json.dumps(result, indent=2, default=str))
-    else:
-        # Fallback: print the repr
-        print(result)
+    # ── Studio URL ──────────────────────────────────────────────────────
+    scan = getattr(result, "scan_result", None) or {}
+    studio_url = scan.get("studio_url")
+    if studio_url:
+        print(f"\n  🔗  Foundry results: {studio_url}")
+
+    # ── Scorecard tables ────────────────────────────────────────────────
+    scorecard = None
+    if hasattr(result, "to_scorecard"):
+        scorecard = result.to_scorecard()
+    if scorecard is None and isinstance(scan, dict):
+        scorecard = scan.get("scorecard")
+
+    if scorecard:
+        _print_risk_category_table(scorecard)
+        _print_attack_technique_table(scorecard)
+        _print_joint_summary_table(scorecard)
+
+    # ── Per-attack detail table ─────────────────────────────────────────
+    attacks = getattr(result, "attack_details", None)
+    if attacks:
+        _print_attack_details_table(attacks)
 
     print()
+
+
+# ── Table helpers ───────────────────────────────────────────────────────────
+def _fmt_pct(value) -> str:
+    """Format a float as a percentage string, or '–' if unavailable."""
+    if value is None:
+        return "–"
+    return f"{value * 100:5.1f}%"
+
+
+def _fmt_int(value) -> str:
+    return "–" if value is None else str(value)
+
+
+def _print_risk_category_table(scorecard: dict):
+    """Risk-category ASR summary."""
+    items = scorecard.get("risk_category_summary")
+    if not items:
+        return
+    row = items[0]  # single summary row
+
+    categories = [
+        ("Overall", "overall"),
+        ("Violence", "violence"),
+        ("Hate/Unfairness", "hate_unfairness"),
+        ("Sexual", "sexual"),
+        ("Self-Harm", "self_harm"),
+    ]
+
+    print("\n  ┌─────────────────────────────────────────────────────┐")
+    print("  │          Risk Category Attack Success Rates         │")
+    print("  ├───────────────────┬────────┬───────┬────────────────┤")
+    print("  │ Category          │   ASR  │ Total │ Successful     │")
+    print("  ├───────────────────┼────────┼───────┼────────────────┤")
+    for label, key in categories:
+        asr = row.get(f"{key}_asr")
+        total = row.get(f"{key}_total")
+        success = row.get(f"{key}_successful_attacks")
+        print(
+            f"  │ {label:<17} │ {_fmt_pct(asr):>6} │ {_fmt_int(total):>5} │ {_fmt_int(success):>14} │"
+        )
+    print("  └───────────────────┴────────┴───────┴────────────────┘")
+
+
+def _print_attack_technique_table(scorecard: dict):
+    """Attack-technique (complexity) ASR summary."""
+    items = scorecard.get("attack_technique_summary")
+    if not items:
+        return
+    row = items[0]
+
+    complexities = [
+        ("Overall", "overall"),
+        ("Baseline", "baseline"),
+        ("Easy", "easy_complexity"),
+        ("Moderate", "moderate_complexity"),
+        ("Difficult", "difficult_complexity"),
+    ]
+
+    print("\n  ┌─────────────────────────────────────────────────────┐")
+    print("  │       Attack Technique / Complexity Summary         │")
+    print("  ├───────────────────┬────────┬───────┬────────────────┤")
+    print("  │ Complexity        │   ASR  │ Total │ Successful     │")
+    print("  ├───────────────────┼────────┼───────┼────────────────┤")
+    for label, key in complexities:
+        asr = row.get(f"{key}_asr")
+        total = row.get(f"{key}_total")
+        success = row.get(f"{key}_successful_attacks")
+        print(
+            f"  │ {label:<17} │ {_fmt_pct(asr):>6} │ {_fmt_int(total):>5} │ {_fmt_int(success):>14} │"
+        )
+    print("  └───────────────────┴────────┴───────┴────────────────┘")
+
+
+def _print_joint_summary_table(scorecard: dict):
+    """Joint risk × attack complexity ASR (detailed breakdown)."""
+    detailed = scorecard.get("detailed_joint_risk_attack_asr")
+    if not detailed:
+        return
+
+    print("\n  ┌──────────────────────────────────────────────────────────────────┐")
+    print("  │           Joint Risk × Attack Complexity ASR                     │")
+    print("  ├───────────────────┬──────────┬──────────┬──────────┬─────────────┤")
+    print("  │ Risk Category     │ Baseline │   Easy   │ Moderate │  Difficult  │")
+    print("  ├───────────────────┼──────────┼──────────┼──────────┼─────────────┤")
+    for risk_cat, techniques in detailed.items():
+        base = techniques.get("baseline", {}).get("attack_success_rate")
+        easy = techniques.get("easy", {}).get("attack_success_rate")
+        mod = techniques.get("moderate", {}).get("attack_success_rate")
+        diff = techniques.get("difficult", {}).get("attack_success_rate")
+        label = risk_cat.replace("_", " ").title()
+        print(
+            f"  │ {label:<17} │ {_fmt_pct(base):>8} │ {_fmt_pct(easy):>8} │ "
+            f"{_fmt_pct(mod):>8} │ {_fmt_pct(diff):>11} │"
+        )
+    print("  └───────────────────┴──────────┴──────────┴──────────┴─────────────┘")
+
+
+def _print_attack_details_table(attacks: list):
+    """Per-attack synopsis table."""
+    print(f"\n  Individual Attacks: {len(attacks)} total\n")
+
+    # Column widths
+    w_tech = 22
+    w_cmplx = 12
+    w_risk = 18
+    w_result = 10
+
+    hdr = (
+        f"  {'#':>3}  "
+        f"{'Technique':<{w_tech}}  "
+        f"{'Complexity':<{w_cmplx}}  "
+        f"{'Risk Category':<{w_risk}}  "
+        f"{'Result':<{w_result}}"
+    )
+    sep = "  " + "─" * (len(hdr) - 2)
+    print(hdr)
+    print(sep)
+
+    success_count = 0
+    for i, atk in enumerate(attacks, 1):
+        technique = (atk.get("attack_technique") or "–")[:w_tech]
+        complexity = (atk.get("attack_complexity") or "–")[:w_cmplx]
+        risk = (atk.get("risk_category") or "–").replace("_", " ").title()[:w_risk]
+        succeeded = atk.get("attack_success")
+        if succeeded is True:
+            result_str = "🔴 SUCCESS"
+            success_count += 1
+        elif succeeded is False:
+            result_str = "🟢 Blocked"
+        else:
+            result_str = "⚪ Unknown"
+
+        print(
+            f"  {i:>3}  "
+            f"{technique:<{w_tech}}  "
+            f"{complexity:<{w_cmplx}}  "
+            f"{risk:<{w_risk}}  "
+            f"{result_str:<{w_result}}"
+        )
+
+    print(sep)
+    blocked = len(attacks) - success_count
+    print(
+        f"  Summary: {len(attacks)} attacks  │  "
+        f"🟢 {blocked} blocked  │  "
+        f"🔴 {success_count} succeeded  │  "
+        f"ASR: {success_count / len(attacks) * 100:.1f}%"
+    )
 
 
 # ═════════════════════════════════════════════════════════════════════════════
