@@ -1,0 +1,29 @@
+# Local run:
+.\venv\Scripts\Activate.ps1
+uvicorn chat_app:app --host 0.0.0.0 --port 8005
+
+http://127.0.0.1:8005/
+
+
+# Chat bot in Azure Web App (restart the web app before demo):
+https://zava-multi-agents-adhkhbaxbnc3fcat.swedencentral-01.azurewebsites.net/
+
+
+# Prompts suggestions
+What colors of green paint do you have?
+I think I’m interested in Deep Forest. How many gallons would I need to paint a medium sized bedroom?
+How much of PROD0018 do you have in stock?
+Let’s add two gallons to the cart, please.
+Please also add one paint tray and two of your All-Purpose Wall Paint Brushes.
+What items are in my cart right now?
+Please apply the discount that you calculated before.
+I’d like to check out now.
+
+
+# Sample prompts may include the following:
+What are the latest trends in home decor?
+Can you help me find a sofa that fits my style?
+Do you have any blue paint in stock?
+How much of PROD0043 do you have in stock?
+What is the availability of the ‘Modern Chair’?
+I am ready to check out.
