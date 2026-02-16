@@ -27,3 +27,18 @@ I’d like to check out now.
 - Launch Foundry and show the agents and their instructions
 
 - Launch VS Code and show the code that generated the agents
+
+- Show handoff-service agent Monitor
+- Show handoff-service agent Evaluation / Automatic evaluation
+- Show cora agent Evaluation / Red team
+- Show ~\src\zava-agents\app\agents\redTeamingAgent_initializer.py file
+- Explain the red teaming agent and how it works
+- Launch:
+
+```pwsh
+cd \src\zava-agents
+.\venv\Scripts\activate.ps1 
+python app/agents/redTeamingAgent_initializer.py
+```
+
+Select a run option (1-6)
