@@ -21,9 +21,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the code
 COPY . .
 
-# Copy .env file into the image (for python-dotenv)
-COPY .env .env
-
 # Expose the port (default FastAPI/uvicorn port)
 EXPOSE 8000
 
@@ -31,4 +28,4 @@ EXPOSE 8000
 ENV PORT=8000
 
 # Start the FastAPI app
-CMD ["uvicorn", "chat_app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "chat_app_3_multiAgent:app", "--host", "0.0.0.0", "--port", "8000"]

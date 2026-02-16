@@ -26,7 +26,7 @@ resource "terraform_data" "build_and_push_image" {
 
   provisioner "local-exec" {
     command     = <<-EOT
-      & '../../pump-switch-mcp-server/build-and-push-to-acr.ps1' `
+      & '../../pump-switch-mcp-server/pump-switch-mcp_bnp-to-acr.ps1' `
         -AcrName '${local.discovered_acr_name}' `
         -ImageName '${var.mcp_app_name}'
     EOT
