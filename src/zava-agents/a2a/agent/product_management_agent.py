@@ -11,10 +11,10 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 from agent_framework import (
     AgentThread,
-    TextContent,
-    ChatAgent,
+    Content,
+    Agent,
     BaseChatClient,
-    ai_function,
+    tool,
 )
 from agent_framework.openai import OpenAIChatClient
 from agent_framework.azure import AzureOpenAIChatClient
@@ -123,7 +123,7 @@ def _get_openai_chat_completion_service() -> OpenAIChatClient:
 # region Get Products
 
 
-@ai_function(
+@tool(
     name="get_products",
     description="Retrieves a set of products based on a natural language user query.",
 )
@@ -183,7 +183,7 @@ class ResponseFormat(BaseModel):
 class AgentFrameworkProductManagementAgent:
     """Wraps Microsoft Agent Framework-based agents to handle Zava product management tasks."""
 
-    agent: ChatAgent
+    agent: Agent
     thread: AgentThread = None
     SUPPORTED_CONTENT_TYPES = ["text", "text/plain"]
 
@@ -192,8 +192,8 @@ class AgentFrameworkProductManagementAgent:
         chat_service = get_chat_completion_service(ChatServices.AZURE_OPENAI)
 
         # Define an MarketingAgent to handle marketing-related tasks
-        marketing_agent = ChatAgent(
-            chat_client=chat_service,
+        marketing_agent = Agent(
+            client=chat_service,
             name="MarketingAgent",
             instructions=(
                 "You specialize in planning and recommending marketing strategies for products. "
@@ -203,8 +203,8 @@ class AgentFrameworkProductManagementAgent:
         )
 
         # Define an RankerAgent to sort and recommend results
-        ranker_agent = ChatAgent(
-            chat_client=chat_service,
+        ranker_agent = Agent(
+            client=chat_service,
             name="RankerAgent",
             instructions=(
                 "You specialize in ranking and recommending products based on various criteria. "
@@ -214,8 +214,8 @@ class AgentFrameworkProductManagementAgent:
         )
 
         # Define a ProductAgent to retrieve products from the Zava catalog
-        product_agent = ChatAgent(
-            chat_client=chat_service,
+        product_agent = Agent(
+            client=chat_service,
             name="ProductAgent",
             instructions=(
                 """
@@ -235,8 +235,8 @@ class AgentFrameworkProductManagementAgent:
         )
 
         # Define the main ProductManagerAgent to delegate tasks to the appropriate agents
-        self.agent = ChatAgent(
-            chat_client=chat_service,
+        self.agent = Agent(
+            client=chat_service,
             name="ProductManagerAgent",
             instructions=(
                 "Your role is to carefully analyze the user's request and respond as best as you can. "
@@ -291,11 +291,12 @@ class AgentFrameworkProductManagementAgent:
         await self._ensure_thread_exists(session_id)
 
         # text_notice_seen = False
-        chunks: list[TextContent] = []
+        chunks: list[Content] = []
 
-        async for chunk in self.agent.run_stream(
+        async for chunk in self.agent.run(
             messages=user_input,
             thread=self.thread,
+            stream=True,
         ):
             if chunk.text:
                 chunks.append(chunk.text)
@@ -303,11 +304,11 @@ class AgentFrameworkProductManagementAgent:
         if chunks:
             yield self._get_agent_response(sum(chunks[1:], chunks[0]))
 
-    def _get_agent_response(self, message: TextContent) -> dict[str, Any]:
+    def _get_agent_response(self, message: Content) -> dict[str, Any]:
         """Extracts the structured response from the agent's message content.
 
         Args:
-            message (TextContent): The message content from the agent.
+            message (Content): The message content from the agent.
 
         Returns:
             dict: A dictionary containing the content, task completion status, and user input requirement.
@@ -349,7 +350,7 @@ class AgentFrameworkProductManagementAgent:
             session_id (str): Unique identifier for the session.
         """
         if self.thread is None or self.thread.service_thread_id != session_id:
-            self.thread = self.agent.get_new_thread(thread_id=session_id)
+            self.thread = self.agent.get_new_thread(service_thread_id=session_id)
 
 
 # endregion
