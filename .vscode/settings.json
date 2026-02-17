@@ -4,5 +4,6 @@
     "cogsvc",
     "eastus",
     "uaid"
-  ]
+  ],
+  "python-envs.pythonProjects": []
 }
