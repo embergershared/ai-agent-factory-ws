@@ -33,3 +33,26 @@ Launch:
   - Show Operate
   - Show publish & publish
   - Mention/show publish it to Teams, but explain you can’t do it because of tenant limitations
+
+
+## Local Launch options
+
+```pwsh
+cd .\src\zava-agents\
+.\venv\Scripts\activate.ps1
+
+# Launch Single agent
+uvicorn chat_app_2_singleAgent:app --host 0.0.0.0 --port 8000
+
+# # Update multi-agent image
+# .\zava-shopping_bnp-to-acr.ps1
+
+# Launch multi-agent locally
+uvicorn chat_app_3_multiAgent:app --host 0.0.0.0 --port 8000
+
+# Launch A2A agent
+# python .\a2a\main.py # Needs some debug
+
+# Launch Red team script
+python app/agents/redTeamingAgent_initializer.py
+```

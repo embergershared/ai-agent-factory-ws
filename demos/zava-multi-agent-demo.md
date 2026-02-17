@@ -42,3 +42,22 @@ python app/agents/redTeamingAgent_initializer.py
 ```
 
 Select a run option (1-6)
+
+
+## Local launch options:
+
+# Launch Single agent
+
+```pwsh
+cd .\src\zava-agents\
+.\venv\Scripts\activate.ps1
+
+# Launch Single agent
+uvicorn chat_app_2_singleAgent:app --host 0.0.0.0 --port 8000
+
+# Launch multi-agent locally
+uvicorn chat_app_3_multiAgent:app --host 0.0.0.0 --port 8000
+
+# Launch Red team script
+python app/agents/redTeamingAgent_initializer.py
+```
